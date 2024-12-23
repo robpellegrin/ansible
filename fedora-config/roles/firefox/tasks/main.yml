@@ -1,0 +1,40 @@
+# roles/firefox_preferences/tasks/main.yml
+---
+- name: Check if user has a Firefox profile directory
+  ansible.builtin.stat:
+    path: "/home/{{ ansible_user }}/.mozilla/firefox"
+  register: firefox_mozilla_dir
+
+- name: Fail if Firefox profile directory is missing for user
+  ansible.builtin.fail:
+    msg: "Firefox directory not found for user: {{ ansible_env.HOME }} {{ ansible_user }}"
+  when: not firefox_mozilla_dir.stat.exists
+
+- name: Find Firefox profile directory for the specified user
+  ansible.builtin.find:
+    paths: "/home/{{ ansible_user }}/.mozilla/firefox/"
+    patterns: "*default-release"
+    recurse: no 
+  register: firefox_profiles
+
+- name: Fail if no Firefox profile found for the specified user
+  ansible.builtin.fail:
+    msg: "Firefox profile directory not found for user: {{ ansible_user }}"
+  when: firefox_profiles.matched == 0
+
+- name: Create or update user.js file for the specified user
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_user }}/.mozilla/firefox/{{ firefox_profiles.files[0].path | basename }}/prefs.js"
+    line: "{{ item }}"
+    create: yes
+  loop:
+    - 'user_pref("media.gmp-widevinecdm.visible", false);'
+    - 'user_pref("network.protocol-handler.external.mailto", false);'
+    - 'user_pref("keyword.enabled", false);'
+  notify:
+    - Firefox preferences updated
+
+- name: Notify user about updated preferences
+  ansible.builtin.debug:
+    msg: "Firefox preferences have been updated for user: {{ ansible_user }}. Please restart Firefox."
+

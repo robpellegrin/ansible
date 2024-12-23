@@ -1,0 +1,17 @@
+---
+- name: Install Common Packages
+  package:
+    name:
+      - curl
+      - wget
+      - tmux
+      - tree
+      - stow
+      - thunderbird
+      - alacritty
+      - htop
+      - btop
+      - bat
+      - eza
+
+    state: present

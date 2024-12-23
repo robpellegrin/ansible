@@ -1,0 +1,2 @@
+---
+firefox_profile_path: "{{ ansible_env.HOME }}/.mozilla/firefox/*.default-release"

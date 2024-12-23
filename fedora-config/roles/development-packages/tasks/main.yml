@@ -1,0 +1,13 @@
+---
+- name: Install development tools
+  package:
+    name:
+      - git
+      - neovim
+      - valgrind
+      - gcc
+      - g++
+      - make
+      - cppcheck
+
+    state: present
