@@ -1,6 +1,0 @@
-# roles/firefox_preferences/handlers/main.yml
----
-- name: Firefox preferences updated
-  ansible.builtin.debug:
-    msg: "Firefox preferences updated successfully. Please restart Firefox."
-
