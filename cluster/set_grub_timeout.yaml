@@ -1,0 +1,27 @@
+---
+- name: Set GRUB timeout to 0
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure GRUB configuration file is present
+      stat:
+        path: /etc/default/grub
+      register: grub_config
+
+    - name: Modify GRUB timeout to 0
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_TIMEOUT='
+        line: 'GRUB_TIMEOUT=0'
+        state: present
+      when: grub_config.stat.exists
+
+    - name: Update GRUB configuration
+      command: update-grub
+      when: grub_config.stat.exists
+
+    - name: Reboot the system to apply changes
+      reboot:
+        reboot_timeout: 600
+        test_command: uptime
+      when: grub_config.stat.exists

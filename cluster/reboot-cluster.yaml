@@ -1,0 +1,9 @@
+---
+- name: Reboot all nodes
+  hosts: all
+  become: yes  # Ensure the task runs with root privileges
+  tasks:
+    - name: Shutdown the node
+      command: /sbin/shutdown -r now
+      async: 1  # Run the shutdown command in the background
+      poll: 0   # Don't wait for the shutdown command to finish

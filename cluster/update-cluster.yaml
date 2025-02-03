@@ -1,0 +1,30 @@
+---
+- name: Update all Debian nodes
+  hosts: all
+  become: true
+  tasks:
+    - name: Update APT package cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Perform a full upgrade of all packages
+      ansible.builtin.apt:
+        upgrade: dist
+
+    - name: Remove unnecessary packages
+      ansible.builtin.apt:
+        autoremove: yes
+
+    - name: Clean APT cache
+      ansible.builtin.apt:
+        autoclean: yes
+
+    - name: Check if a reboot is required
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot the system if needed
+      ansible.builtin.reboot:
+        reboot_timeout: 300
+      when: reboot_required.stat.exists

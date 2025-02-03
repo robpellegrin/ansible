@@ -1,0 +1,40 @@
+---
+- name: Install NVIDIA drivers and CUDA toolkit
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add the Debian repository for NVIDIA drivers
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list
+        line: "deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware"
+        state: present
+
+    - name: Update package list
+      ansible.builtin.command: apt update
+      register: update_result
+
+    - name: Ensure package list was updated successfully
+      ansible.builtin.assert:
+        that:
+          - "update_result.rc == 0"
+        fail_msg: "Failed to update package list."
+
+    - name: Install NVIDIA driver and firmware
+      ansible.builtin.apt:
+        name:
+          - nvidia-driver
+          - firmware-misc-nonfree
+        state: present
+
+    - name: Reboot the system
+      ansible.builtin.reboot:
+        msg: "Rebooting to finalize NVIDIA driver installation."
+        reboot_timeout: 300
+
+    - name: Install NVIDIA CUDA development tools
+      ansible.builtin.apt:
+        name:
+          - nvidia-cuda-dev
+          - nvidia-cuda-toolkit
+        state: present

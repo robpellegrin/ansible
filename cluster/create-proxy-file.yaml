@@ -1,0 +1,13 @@
+---
+- name: Create proxy configuration file for APT
+  hosts: all
+  become: yes  # Ensure the task is run with elevated privileges (root)
+  tasks:
+    - name: Ensure the proxy file exists and contains the correct configuration
+      copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://manager:3142";
+        owner: root
+        group: root
+        mode: '0644'

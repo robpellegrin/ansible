@@ -1,0 +1,19 @@
+---
+- name: Check reachability of nodes
+  hosts: all
+  gather_facts: false  # Skip gathering facts for faster execution
+  tasks:
+    - name: Check if the node is reachable
+      ping:
+      register: ping_result
+      ignore_errors: yes  # Allow the playbook to continue even if some nodes are unreachable
+
+    - name: Display reachable nodes
+      debug:
+        msg: "Node {{ inventory_hostname }} is reachable."
+      when: ping_result.ping == "pong"
+
+    - name: Display unreachable nodes
+      debug:
+        msg: "Node {{ inventory_hostname }} is unreachable."
+      when: ping_result.failed

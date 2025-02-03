@@ -1,0 +1,26 @@
+---
+- name: Ensure MPI directory exists, mount NFS volume, and update fstab
+  hosts: all
+  become: yes  # Ensure the tasks run with root privileges
+  tasks:
+    - name: Ensure the ~/MPI directory exists
+      file:
+        path: "/home/mpi/MPI"
+        state: directory
+        mode: '0755'
+
+    - name: Mount NFS volume if not already mounted
+      mount:
+        path: "/home/mpi/MPI"
+        src: "manager:/home/rpellegrin1/MPI"
+        fstype: nfs
+        state: mounted
+        opts: rw
+
+    - name: Add NFS mount entry to /etc/fstab
+      mount:
+        path: "/home/mpi/MPI"
+        src: "manager:/home/rpellegrin1/MPI"
+        fstype: nfs
+        opts: rw
+        state: present
