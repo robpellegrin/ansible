@@ -5,5 +5,9 @@
   tasks:
     - name: Shutdown the node
       command: /sbin/shutdown -h now
+  become: true
+  tasks:
+    - name: Shutdown the node
+      ansible.builtin.command: systemctl poweroff
       async: 1  # Run the shutdown command in the background
       poll: 0   # Don't wait for the shutdown command to finish
