@@ -1,10 +1,6 @@
 ---
 - name: Shutdown all nodes
   hosts: all
-  become: yes  # Ensure the task runs with root privileges
-  tasks:
-    - name: Shutdown the node
-      command: /sbin/shutdown -h now
   become: true
   tasks:
     - name: Shutdown the node
