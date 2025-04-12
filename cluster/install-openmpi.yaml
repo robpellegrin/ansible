@@ -15,4 +15,5 @@
           - build-essential
           - libopenmpi-dev
           - nfs-common
+          - btop
         state: present
