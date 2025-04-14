@@ -9,19 +9,6 @@ This repository contains Ansible playbooks for configuring and managing various 
 - Custom role-based configurations
 - Secure and repeatable deployments
 
-## Usage
+## Reference Materials
 
-1. Ensure Ansible is installed on your control machine.
-
-2. Clone this repository:
-    ```bash
-        git clone https://github.com/robpellegrin/AnsiblePlaybooks
-        cd AnsiblePlaybooks
-    ```
-
-2. Update the inventory file to match your system setup.
-
-3. Run a playbook:
-    ```bash
-    ansible-playbook -i inventory playbook.yml
-    ```
+- [Ansible for DevOps](https://www.ansiblefordevops.com/) by Jeff Geerling 2rd edition, 2020
