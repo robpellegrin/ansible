@@ -1,0 +1,62 @@
+---
+- name: Setup dotfiles on remote machine
+  hosts: all
+  become: false
+  vars:
+    dotfiles_repo: "git@github.com:robpellegrin/dotfiles.git"
+    dotfiles_path: "~/dotfiles"
+    ssh_private_key_path: "~/.ssh/id_ed25519"  # Path to private key
+
+  tasks:
+    - name: Ensure ~/.ssh directory exists
+      file:
+        path: "~/.ssh"
+        state: directory
+        mode: '0700'
+
+    - name: Copy local SSH public key to remote authorized_keys
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: Copy the SSH private key to remote machine
+      copy:
+        src: "~/.ssh/id_rsa"
+        dest: "~/.ssh/id_rsa"
+        mode: '0600'
+
+    - name: Start SSH agent and add private key
+      shell: |
+        eval $(ssh-agent -s)
+        ssh-add ~/.ssh/id_rsa
+      args:
+        executable: /bin/bash
+
+    - name: Install GNU stow
+      become: true
+      ansible.builtin.package:
+        name: stow
+        state: present
+
+    - name: Clone dotfiles repository
+      git:
+        repo: "{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_path }}"
+        version: HEAD
+        update: yes
+        accept_hostkey: yes
+        key_file: "~/.ssh/id_ed25519"  # Specify the private key to use for Git operations
+
+    - name: Run stow --adopt .
+      ansible.builtin.shell: |
+        stow --adopt .
+      args:
+        chdir: "{{ dotfiles_path }}"
+
+    - name: Run git restore .
+      ansible.builtin.shell: |
+        git restore .
+      args:
+        chdir: "{{ dotfiles_path }}"
+...

@@ -1,0 +1,75 @@
+---
+- name: Install ZSH & Plugins
+  hosts: all
+  become: yes
+  vars:
+    zsh_install_script: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+    zsh_syntax_highlighting_repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    zsh_autosuggestions_repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
+    powerlevel10k_repo: "https://github.com/romkatv/powerlevel10k.git"
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Ensure necessary packages are installed (curl, git, zsh)
+      package:
+        name:
+          - zsh
+          - curl
+          - git
+        state: present
+
+    - name: Install kitty
+      package:
+        name: kitty
+        state: present
+
+    - name: Install FiraCode font
+      package:
+        name: fira-code-fonts
+
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+
+    - name: Set zsh as the default shell for the user
+      user:
+        name: "{{ ansible_user }}"
+        shell: /usr/bin/zsh
+        state: present
+
+    - name: Ensure the user exists
+      user:
+        name: "{{ ansible_user }}"
+        state: present
+
+    - name: Download and install Oh-My-Zsh
+      become_user: "{{ ansible_user }}"
+      shell: |
+        yes | sh -c "$(curl -fsSL {{ zsh_install_script }})"
+      args:
+        creates: "/home/{{ ansible_user }}/.oh-my-zsh"
+
+    - name: Install zsh-syntax-highlighting
+      become_user: "{{ ansible_user }}"
+      git:
+        repo: "{{ zsh_syntax_highlighting_repo }}"
+        dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        clone: yes
+        update: yes
+
+    - name: Install zsh-autosuggestions
+      become_user: "{{ ansible_user }}"
+      git:
+        repo: "{{ zsh_autosuggestions_repo }}"
+        dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        clone: yes
+        update: yes
+
+    - name: Install powerlevel10k theme
+      become_user: "{{ ansible_user }}"
+      git:
+        repo: "{{ powerlevel10k_repo }}"
+        dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
+        clone: yes
+        depth: 1  # Use --depth=1 to get a shallow clone
+...
