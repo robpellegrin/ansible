@@ -1,0 +1,11 @@
+---
+- name: Install Common Dev Packages
+  hosts: all
+  become: true
+  tasks:
+    - name: Install common packages
+      package:
+        name:
+          - clang-tools-extra
+          - neovim
+        state: present
