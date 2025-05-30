@@ -19,6 +19,8 @@
       - playerctl
       - network-manager-applet
       - dunst
+      - hyprpaper
+      - hyprlock
 
   tasks:
     - name: Update all packages
