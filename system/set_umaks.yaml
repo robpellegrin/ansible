@@ -1,0 +1,12 @@
+---
+- name: Set UMASK to 027 in /etc/login.defs
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure UMASK is set to 027 in /etc/login.defs
+      ansible.builtin.lineinfile:
+        path: /etc/login.defs
+        regexp: '^UMASK'
+        line: 'UMASK           027'
+        state: present
+...

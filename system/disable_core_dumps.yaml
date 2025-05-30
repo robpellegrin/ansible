@@ -1,0 +1,33 @@
+---
+- name: Disable core dumps for all users
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure core dump limits are set to 0 (soft and hard) for all users
+      ansible.builtin.lineinfile:
+        path: /etc/security/limits.conf
+        regexp: '^(\*|.*)\s+(soft|hard)\s+core\s+'
+        line: '*               soft    core            0'
+        state: present
+
+    - name: Ensure hard core dump limits are set to 0 for all users
+      ansible.builtin.lineinfile:
+        path: /etc/security/limits.conf
+        regexp: '^(\*|.*)\s+(soft|hard)\s+core\s+'
+        line: '*               hard    core            0'
+        state: present
+
+    - name: Ensure core dumps are disabled for root user
+      ansible.builtin.lineinfile:
+        path: /etc/security/limits.conf
+        regexp: '^root\s+(soft|hard)\s+core\s+'
+        line: 'root            soft    core            0'
+        state: present
+
+    - name: Ensure hard core dump limit for root user is set to 0
+      ansible.builtin.lineinfile:
+        path: /etc/security/limits.conf
+        regexp: '^root\s+(soft|hard)\s+core\s+'
+        line: 'root            hard    core            0'
+        state: present
+...
