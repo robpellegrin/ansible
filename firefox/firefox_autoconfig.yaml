@@ -1,0 +1,29 @@
+---
+- name: Configure Firefox AutoConfig and Policies
+  hosts: all
+  become: true
+  tasks:
+    - name: Copy firefox.cfg to /usr/lib64/firefox/
+      copy:
+        src: firefox.cfg
+        dest: /usr/lib64/firefox/firefox.cfg
+        mode: '0644'
+
+    - name: Copy autoconfig.js to /usr/lib64/firefox/defaults/pref/
+      copy:
+        src: autoconfig.js
+        dest: /usr/lib64/firefox/defaults/pref/autoconfig.js
+        mode: '0644'
+
+    - name: Ensure /etc/firefox/policies directory exists
+      file:
+        path: /etc/firefox/policies
+        state: directory
+        mode: '0755'
+
+    - name: Copy policies.json to /etc/firefox/policies/
+      copy:
+        src: policies.json
+        dest: /etc/firefox/policies/policies.json
+        mode: '0644'
+...
