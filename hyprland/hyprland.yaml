@@ -1,6 +1,6 @@
 ---
 - name: Install Hyprland from Fedora repos
-  hosts: blah
+  hosts: all
   become: true
 
   vars:
@@ -11,6 +11,7 @@
       - rofi
       - kitty
       - wl-clipboard
+      - wlsunset
       - grim
       - slurp
       - swaybg

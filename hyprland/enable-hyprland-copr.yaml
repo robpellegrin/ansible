@@ -1,0 +1,19 @@
+---
+- name: Enable Hyprland Copr Repository
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Ensure dnf-plugins-core is installed (needed for copr)
+      package:
+        name: dnf-plugins-core
+        state: present
+
+    - name: Enable solopasha/hyprland Copr repository
+      command: dnf copr enable -y solopasha/hyprland
+      args:
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:solopasha:hyprland.repo
+
+    - name: Refresh DNF metadata
+      command: dnf makecache
+...
