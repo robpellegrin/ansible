@@ -15,4 +15,6 @@
           - btop
           - bat
           - neovim
+          - gwenview
+          - okular
         state: present
