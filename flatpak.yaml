@@ -17,4 +17,9 @@
       flatpak:
         name: io.gitlab.librewolf-community
         state: present
+
+    - name: Install KeePassXC via Flatpak
+      flatpak:
+        name: org.keepassxc.KeePassXC
+        state: present
 ...
