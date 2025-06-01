@@ -1,0 +1,95 @@
+---
+- name: Disable and stop services
+  hosts: all
+  become: yes
+  tasks:
+    - name: Disable and stop ModemManager service
+      systemd:
+        name: ModemManager.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop atd service
+      systemd:
+        name: atd.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop abrtd service
+      systemd:
+        name: abrtd.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop abrt-journal-core service
+      systemd:
+        name: abrt-journal-core.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop abrt-oops service
+      systemd:
+        name: abrt-oops.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop abrt-vmcore service
+      systemd:
+        name: abrt-vmcore.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop abrt-xorg service
+      systemd:
+        name: abrt-xorg.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop gssproxy service
+      systemd:
+        name: gssproxy.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop cups service
+      systemd:
+        name: cups.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop cups socket
+      systemd:
+        name: cups.socket
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop cups path
+      systemd:
+        name: cups.path
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop avahi-daemon service
+      systemd:
+        name: avahi-daemon.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop avahi-daemon socket
+      systemd:
+        name: avahi-daemon.socket
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop bluetooth service
+      systemd:
+        name: bluetooth.service
+        enabled: no
+        state: stopped
+
+    - name: Disable and stop switcheroo-control service
+      systemd:
+        name: switcheroo-control.service
+        enabled: no
+        state: stopped
+...
