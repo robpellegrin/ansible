@@ -8,4 +8,5 @@
         name:
           - clang-tools-extra
           - neovim
+          - kate
         state: present
