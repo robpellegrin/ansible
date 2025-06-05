@@ -18,18 +18,18 @@
       ansible.posix.authorized_key:
         user: "{{ ansible_user }}"
         state: present
-        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
 
     - name: Copy the SSH private key to remote machine
       copy:
-        src: "~/.ssh/id_rsa"
-        dest: "~/.ssh/id_rsa"
+        src: "~/.ssh/id_ed25519"
+        dest: "~/.ssh/id_ed25519"
         mode: '0600'
 
     - name: Start SSH agent and add private key
       shell: |
-        eval $(ssh-agent -s)
-        ssh-add ~/.ssh/id_rsa
+        eval $(ssh-agent)
+        ssh-add ~/.ssh/id_ed25519
       args:
         executable: /bin/bash
 
@@ -46,7 +46,6 @@
         version: HEAD
         update: yes
         accept_hostkey: yes
-        key_file: "~/.ssh/id_ed25519"  # Specify the private key to use for Git operations
 
     - name: Run stow --adopt .
       ansible.builtin.shell: |
