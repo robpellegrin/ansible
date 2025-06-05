@@ -1,0 +1,11 @@
+ssh_parameters:
+  - { key: 'AllowTcpForwarding', value: 'no' }
+  - { key: 'ClientAliveCountMax', value: '2' }
+  - { key: 'LogLevel', value: 'VERBOSE' }
+  - { key: 'MaxAuthTries', value: '3' }
+  - { key: 'MaxSessions', value: '2' }
+  - { key: 'TCPKeepAlive', value: 'no' }
+  - { key: 'X11Forwarding', value: 'no' }
+  - { key: 'AllowAgentForwarding', value: 'no' }
+  # Uncomment and customize to change the port
+  # - { key: 'Port', value: '2222' }
