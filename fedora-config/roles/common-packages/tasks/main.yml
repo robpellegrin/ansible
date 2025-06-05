@@ -2,17 +2,13 @@
 - name: Install Common Packages
   package:
     name:
+      - python3-dnf # Needed for Ansible to interact with DNF.
       - curl
       - wget
-      - tmux
       - tree
-      - stow
-      - thunderbird
-      - alacritty
       - htop
       - btop
       - bat
       - eza
-      - fire-code-fonts
-
     state: present
+...
