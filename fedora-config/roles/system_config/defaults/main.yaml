@@ -1,0 +1,33 @@
+---
+core_limit_soft: 0
+core_limit_hard: 0
+root_core_limit_soft: 0
+root_core_limit_hard: 0
+
+sysctl_settings:
+  - dev.tty.ldisc_autoload = 0
+  - fs.protected_fifos = 2
+  - fs.protected_regular = 2
+  - fs.suid_dumpable = 0
+  - kernel.kptr_restrict = 2
+  - kernel.sysrq = 0
+  - kernel.unprivileged_bpf_disabled = 1
+  - net.core.bpf_jit_harden = 2
+  - net.ipv4.conf.all.log_martians = 1
+  - net.ipv4.conf.all.rp_filter = 1
+  - net.ipv4.conf.default.log_martians = 1
+
+ssh_parameters:
+  - { key: 'AllowTcpForwarding', value: 'no' }
+  - { key: 'ClientAliveCountMax', value: '2' }
+  - { key: 'LogLevel', value: 'VERBOSE' }
+  - { key: 'MaxAuthTries', value: '3' }
+  - { key: 'MaxSessions', value: '2' }
+  - { key: 'TCPKeepAlive', value: 'no' }
+  - { key: 'X11Forwarding', value: 'no' }
+  - { key: 'AllowAgentForwarding', value: 'no' }
+  # Uncomment and customize to change the port
+  # - { key: 'Port', value: '2222' }
+
+umask_value: "027"
+...

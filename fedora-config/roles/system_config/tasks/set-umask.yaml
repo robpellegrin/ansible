@@ -1,0 +1,7 @@
+- name: Ensure UMASK is set to {{ umask_value }} in /etc/login.defs
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK'
+    line: "UMASK           {{ umask_value }}"
+    state: present
+...

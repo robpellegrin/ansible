@@ -3,6 +3,8 @@
   hosts: all
   become: true
   roles:
-    - firefox
-    - flatpak_repo
+    - system_config
+    #- firefox
+    #- flatpak_repo
+    #- flatpak_packages
 ...

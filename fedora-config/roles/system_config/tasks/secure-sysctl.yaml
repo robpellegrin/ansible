@@ -1,0 +1,11 @@
+- name: Ensure /etc/sysctl.d/60-secured-values.conf contains the desired sysctl settings
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/60-secured-values.conf
+    mode: '0644'
+    owner: root
+    group: root
+    content: |
+      {% for setting in sysctl_settings %}
+      {{ setting }}
+      {% endfor %}
+...
