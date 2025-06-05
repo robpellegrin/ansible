@@ -3,7 +3,11 @@
   hosts: all
   become: true
   roles:
-    - system_config
+    - terminal_setup
+    #- install_rust
+    #- disable_core_dump
+    #- harden_ssh
+    #- configure_dnf
     #- firefox
     #- flatpak_repo
     #- flatpak_packages
