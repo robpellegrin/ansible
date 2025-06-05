@@ -1,9 +1,7 @@
 ---
-- name: Install packages on all servers
+- name: Configure fedora system
   hosts: all
   become: true
   roles:
-    - development-packages
-    - common-packages
     - firefox
 ...
