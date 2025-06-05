@@ -19,4 +19,7 @@
 
 - name: Harden SSH configuration
   include_tasks: ssh-config.yaml
+
+- name: Disable unused services
+  include_tasks: disable-unused-services.yaml
 ...

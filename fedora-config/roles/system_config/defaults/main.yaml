@@ -30,4 +30,22 @@ ssh_parameters:
   # - { key: 'Port', value: '2222' }
 
 umask_value: "027"
+
+# List of services to disable and stop
+disabled_services:
+  - ModemManager.service
+  - atd.service
+  - abrtd.service
+  - abrt-journal-core.service
+  - abrt-oops.service
+  - abrt-vmcore.service
+  - abrt-xorg.service
+  - gssproxy.service
+  - cups.service
+  - cups.socket
+  - cups.path
+  - avahi-daemon.service
+  - avahi-daemon.socket
+  - bluetooth.service
+  - switcheroo-control.service
 ...
