@@ -1,0 +1,6 @@
+---
+core_limit_soft: 0
+core_limit_hard: 0
+root_core_limit_soft: 0
+root_core_limit_hard: 0
+...
