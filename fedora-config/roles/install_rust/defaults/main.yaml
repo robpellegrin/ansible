@@ -1,0 +1,4 @@
+---
+rust_install_script_url: "https://sh.rustup.rs"
+rust_user: "{{ ansible_user }}"  # Default to the current ansible user
+...
