@@ -30,4 +30,16 @@
     line: "{{ wlr_no_hardware_cursors }}"
     create: yes
     state: present
+
+- name: Ensure remote Pictures directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/Pictures"
+    state: directory
+    mode: '0755'
+
+- name: Copy wallpaper.png to remote Pictures folder
+  copy:
+    src: "{{ local_wallpaper_path }}"
+    dest: "{{ remote_wallpaper_path }}"
+    mode: '0600'
 ...
