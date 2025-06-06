@@ -42,4 +42,6 @@
     src: "{{ local_wallpaper_path }}"
     dest: "{{ remote_wallpaper_path }}"
     mode: '0600'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 ...

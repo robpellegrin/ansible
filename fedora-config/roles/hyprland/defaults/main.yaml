@@ -4,7 +4,7 @@ dnf_plugins_package: "dnf-plugins-core"
 repo_file_path: "/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:solopasha:hyprland.repo"
 
 local_wallpaper_path: "{{ lookup('env','HOME') }}/Pictures/wallpaper.png"
-remote_wallpaper_path: "{{ ansible_env.HOME }}/Pictures/wallpaper.png"
+remote_wallpaper_path: "/home/{{ ansible_user }}/Pictures/wallpaper.png"
 
 hyprland_packages:
   - hyprland
