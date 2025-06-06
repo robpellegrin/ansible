@@ -3,7 +3,8 @@
   hosts: all
   become: true
   roles:
-    - terminal_setup
+    - hyprland
+    #- terminal_setup
     #- install_rust
     #- disable_core_dump
     #- harden_ssh
