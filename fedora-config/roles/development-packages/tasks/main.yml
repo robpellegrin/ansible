@@ -1,7 +1,7 @@
 ---
 - name: Install development tools
   become: true
-  package:
+  ansible.builtin.package:
     name:
       - git
       - neovim
@@ -11,3 +11,4 @@
       - make
       - cppcheck
     state: present
+...

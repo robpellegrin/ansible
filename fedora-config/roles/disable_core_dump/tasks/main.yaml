@@ -1,4 +1,5 @@
 - name: Configure core dump limits
+  become: true
   block:
     - name: Ensure core dump limits are set to 0 (soft and hard) for all users
       ansible.builtin.lineinfile:
@@ -27,5 +28,4 @@
         regexp: '^root\s+(soft|hard)\s+core\s+'
         line: "root            hard    core            {{ root_core_limit_hard }}"
         state: present
-  become: true
 ...

@@ -1,10 +1,10 @@
 ---
 - name: Configure fedora system
   hosts: all
-  become: true
   roles:
-    - hyprland
-    #- terminal_setup
+    #- dotfile_setup
+    #- hyprland
+    - terminal_setup
     #- install_rust
     #- disable_core_dump
     #- harden_ssh

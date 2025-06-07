@@ -1,25 +1,28 @@
 ---
-- name: Copy firefox.cfg to the specified path
-  copy:
-    src: firefox.cfg
-    dest: "{{ firefox_cfg_path }}"
-    mode: '0644'
+- name: Configure firefox
+  become: true
+  block:
+    - name: Copy firefox.cfg to the specified path
+      ansible.builtin.copy:
+        src: firefox.cfg
+        dest: "{{ firefox_cfg_path }}"
+        mode: '0644'
 
-- name: Copy autoconfig.js to the specified path
-  copy:
-    src: autoconfig.js
-    dest: "{{ autoconfig_js_path }}"
-    mode: '0644'
+    - name: Copy autoconfig.js to the specified path
+      ansible.builtin.copy:
+        src: autoconfig.js
+        dest: "{{ autoconfig_js_path }}"
+        mode: '0644'
 
-- name: Ensure the policies directory exists
-  file:
-    path: "{{ policies_dir }}"
-    state: directory
-    mode: '0755'
+    - name: Ensure the policies directory exists
+      ansible.builtin.file:
+        path: "{{ policies_dir }}"
+        state: directory
+        mode: '0755'
 
-- name: Copy policies.json to the specified path
-  copy:
-    src: policies.json
-    dest: "{{ policies_json_path }}"
-    mode: '0644'
+    - name: Copy policies.json to the specified path
+      ansible.builtin.copy:
+        src: policies.json
+        dest: "{{ policies_json_path }}"
+        mode: '0644'
 ...

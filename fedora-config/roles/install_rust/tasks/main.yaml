@@ -2,24 +2,31 @@
 # tasks file for rust_install role
 
 - name: Ensure curl is installed
-  package:
+  ansible.builtin.package:
     name: curl
     state: present
 
-- name: Download and install Rust using rustup
+- name: Download Rust install script
+  ansible.builtin.get_url:
+    url: "{{ rust_install_script_url }}"
+    dest: "/home/{{ ansible_user }}/rustup-init.sh"
+    mode: '0755'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Run Rust install script
   become: false
-  shell: |
-    curl --proto '=https' --tlsv1.2 -sSf {{ rust_install_script_url }} | sh -s -- -y
+  ansible.builtin.command: ./rustup-init.sh -y
   args:
-    executable: /bin/bash
     chdir: "/home/{{ ansible_user }}"
     creates: "/home/{{ ansible_user }}/.cargo/bin/rustc"
 
+
 - name: Add Rust environment to user's .bashrc
-  become: false
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/home/{{ ansible_user }}/.bashrc"
     line: 'source $HOME/.cargo/env'
     insertafter: EOF
-    create: yes
+    create: true
+    mode: "0600"
 ...

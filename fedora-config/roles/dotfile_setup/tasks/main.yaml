@@ -1,24 +1,24 @@
 # roles/dotfiles/tasks/main.yml
 - name: Ensure ~/.ssh directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ user_home }}/.ssh"
     state: directory
     mode: '0700'
 
 - name: Copy private SSH key
-  copy:
+  ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
     dest: "{{ user_home }}/.ssh/id_ed25519"
     mode: '0600'
 
 - name: Copy SSH public key
-  copy:
+  ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
     dest: "{{ user_home }}/.ssh/id_ed25519.pub"
     mode: '0644'
 
 - name: Add GitHub to known_hosts
-  known_hosts:
+  ansible.builtin.known_hosts:
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan github.com 2>/dev/null') }}"
     path: "{{ user_home }}/.ssh/known_hosts"
@@ -28,8 +28,8 @@
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ user_home }}/dotfiles"
-    version: HEAD
-    update: yes
+    version: latest
+    update: true
     accept_hostkey: true
     key_file: "{{ user_home }}/.ssh/id_ed25519"
 
@@ -39,12 +39,15 @@
     name: stow
     state: present
 
-- name: Run stow --adopt .
-  shell: stow --adopt .
-  args:
-    chdir: "{{ user_home }}/dotfiles"
+- name: Echo a message
+  ansible.builtin.command: stow --adopt .
+  changed_when: false
 
 - name: Restore dotfiles repo to clean state
-  shell: git restore .
-  args:
-    chdir: "{{ user_home }}/dotfiles"
+  ansible.builtin.git:
+    repo: "git@github.com:robpellegrin/dotfiles.git"
+    dest: "{{ user_home }}/dotfiles"
+    version: latest
+    force: true
+    update: true
+...

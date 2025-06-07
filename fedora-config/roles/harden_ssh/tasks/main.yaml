@@ -4,7 +4,8 @@
     regexp: '^{{ item.key }}'
     line: '{{ item.key }} {{ item.value }}'
     state: present
-    create: yes
-    backup: yes
+    create: true
+    backup: true
+    mode: "0600"
   loop: "{{ ssh_parameters }}"
 ...

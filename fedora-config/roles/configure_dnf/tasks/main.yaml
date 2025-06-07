@@ -1,17 +1,20 @@
 ---
-- name: Ensure 'fastestmirror=True' is present in /etc/dnf/dnf.conf
+- name: Configure dnf
   become: true
-  ansible.builtin.lineinfile:
-    path: /etc/dnf/dnf.conf
-    regexp: '^fastestmirror='
-    line: 'fastestmirror=True'
-    insertafter: '^\[main\]'
+  block:
+    - name: Ensure 'fastestmirror=True' is present in /etc/dnf/dnf.conf
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/dnf.conf
+        regexp: '^fastestmirror='
+        line: 'fastestmirror=True'
+        insertafter: '^\[main\]'
 
-- name: Ensure 'max_parallel_downloads=15' is present in /etc/dnf/dnf.conf
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/dnf/dnf.conf
-    regexp: '^max_parallel_downloads='
-    line: 'max_parallel_downloads=15'
-    insertafter: '^\[main\]'
+    - name: Ensure 'max_parallel_downloads=15' is present in /etc/dnf/dnf.conf
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/dnf.conf
+        regexp: '^max_parallel_downloads='
+        line: 'max_parallel_downloads=15'
+        insertafter: '^\[main\]'
 ...

@@ -1,15 +1,15 @@
 - name: Install Librewolf via Flatpak
-  flatpak:
+  community.general.flatpak:
     name: io.gitlab.librewolf-community
     state: present
 
 - name: Install KeePassXC via Flatpak
-  flatpak:
+  community.general.flatpak:
     name: org.keepassxc.KeePassXC
     state: present
 
 - name: Install Visual Studio Code via Flatpak
-  flatpak:
+  community.general.flatpak:
     name: com.visualstudio.code
     state: absent
 ...

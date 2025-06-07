@@ -1,26 +1,29 @@
 ---
-- name: Install Common Packages
+- name: Install various packages
   become: true
-  package:
-    name:
-      - python3-dnf # Needed for Ansible to interact with DNF.
-      - gwenview
-      - okular
-      - vlc
-    state: present
+  block:
+    - name: Install common packages
+      become: true
+      ansible.builtin.package:
+        name:
+          - python3-dnf # Needed for Ansible to interact with DNF.
+          - gwenview
+          - okular
+          - vlc
+        state: present
 
-- name: Terminal tools 
-  become: true
-  package:
-    name:
-      - neovim
-      - curl
-      - wget
-      - tree
-      - htop
-      - btop
-      - bat
-      - eza
-      - nmap
-    state: present
+    - name: Terminal tools
+      become: true
+      ansible.builtin.package:
+        name:
+          - neovim
+          - curl
+          - wget
+          - tree
+          - htop
+          - btop
+          - bat
+          - eza
+          - nmap
+        state: present
 ...

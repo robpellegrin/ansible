@@ -1,64 +1,65 @@
 ---
-# tasks file for zsh_install role
+- name: Install needed packages
+  become: true
+  block:
+    - name: Ensure necessary packages are installed (curl, git, zsh, tmux)
+      ansible.builtin.package:
+        name:
+          - zsh
+          - curl
+          - git
+          - tmux
+        state: present
 
-- name: Ensure necessary packages are installed (curl, git, zsh, tmux)
-  package:
-    name:
-      - zsh
-      - curl
-      - git
-      - tmux
-    state: present
+    - name: Install kitty terminal
+      ansible.builtin.package:
+        name: kitty
+        state: present
 
-- name: Install kitty terminal
-  package:
-    name: kitty
-    state: present
+    - name: Install FiraCode font
+      ansible.builtin.package:
+        name: fira-code-fonts
+        state: present
 
-- name: Install FiraCode font
-  package:
-    name: fira-code-fonts
-    state: present
-
-- name: Set tmux as the default shell for the user
-  user:
-    name: "{{ ansible_user }}"
-    shell: /usr/bin/tmux
-    state: present
+    - name: Set tmux as the default shell for the user
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        shell: /usr/bin/tmux
+        state: present
 
 - name: Ensure the user exists
-  user:
+  ansible.built.user:
     name: "{{ ansible_user }}"
     state: present
 
 - name: Download and install Oh-My-Zsh
   become_user: "{{ ansible_user }}"
-  shell: |
+  ansible.built.shell: |
     yes | sh -c "$(curl -fsSL {{ zsh_install_script }})"
   args:
     creates: "/home/{{ ansible_user }}/.oh-my-zsh"
 
 - name: Install zsh-syntax-highlighting plugin
   become_user: "{{ ansible_user }}"
-  git:
+  ansible.built.git:
     repo: "{{ zsh_syntax_highlighting_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-    clone: yes
-    update: yes
+    clone: true
+    update: true
 
 - name: Install zsh-autosuggestions plugin
   become_user: "{{ ansible_user }}"
-  git:
+  ansible.built.git:
     repo: "{{ zsh_autosuggestions_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    clone: yes
-    update: yes
+    clone: true
+    update: true
 
 - name: Install powerlevel10k theme
   become_user: "{{ ansible_user }}"
-  git:
+  ansible.built.git:
     repo: "{{ powerlevel10k_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
-    clone: yes
+    clone: true
     depth: 1  # Use --depth=1 to get a shallow clone
 ...

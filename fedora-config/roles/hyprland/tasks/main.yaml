@@ -1,22 +1,19 @@
 - name: Install required system packages and configure environment
+  become: true
   block:
     - name: Ensure dnf-plugins-core is installed (needed for copr)
-      package:
+      ansible.builtin.package:
         name: "{{ dnf_plugins_package }}"
         state: present
 
     - name: Enable solopasha/hyprland Copr repository
-      command: dnf copr enable -y {{ hyprland_copr_repo }}
+      ansible.builtin.command: dnf copr enable -y {{ hyprland_copr_repo }}
       args:
         creates: "{{ repo_file_path }}"
 
     - name: Refresh DNF metadata
-      command: dnf makecache
-
-    - name: Update all packages to the latest version
-      ansible.builtin.package:
-        name: "*"
-        state: latest
+      ansible.builtin.command: dnf makecache
+      changed_when: false
 
     - name: Install Hyprland and related packages
       ansible.builtin.package:
@@ -27,18 +24,18 @@
       ansible.builtin.lineinfile:
         path: /etc/environment
         line: "{{ wlr_no_hardware_cursors }}"
-        create: yes
+        create: true
         state: present
-  become: true
+        mode: "0600"
 
 - name: Ensure remote Pictures directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/Pictures"
     state: directory
     mode: '0755'
 
 - name: Copy wallpaper.png to remote Pictures folder
-  copy:
+  ansible.builtin.copy:
     src: "{{ local_wallpaper_path }}"
     dest: "{{ remote_wallpaper_path }}"
     mode: '0600'

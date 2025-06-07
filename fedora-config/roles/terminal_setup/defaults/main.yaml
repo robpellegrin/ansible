@@ -1,6 +1,4 @@
 ---
-# defaults file for zsh_install role
-
 zsh_install_script: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 zsh_syntax_highlighting_repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
 zsh_autosuggestions_repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
