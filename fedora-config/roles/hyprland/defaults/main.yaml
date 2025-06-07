@@ -13,16 +13,12 @@ hyprland_packages:
   - rofi
   - kitty
   - wl-clipboard
-  - wlsunset
-  - grim
-  - slurp
-  - swaybg
-  - swappy
   - playerctl
   - network-manager-applet
-  - dunst
+  - swaync
   - hyprpaper
   - hyprlock
+  - hyprsunset
 
 # Environment variable to disable hardware cursors in Hyprland
 wlr_no_hardware_cursors: "WLR_NO_HARDWARE_CURSORS=1"

@@ -1,8 +1,19 @@
 ---
 - name: Install Common Packages
+  become: true
   package:
     name:
       - python3-dnf # Needed for Ansible to interact with DNF.
+      - gwenview
+      - okular
+      - vlc
+    state: present
+
+- name: Terminal tools 
+  become: true
+  package:
+    name:
+      - neovim
       - curl
       - wget
       - tree
@@ -10,5 +21,6 @@
       - btop
       - bat
       - eza
+      - nmap
     state: present
 ...
