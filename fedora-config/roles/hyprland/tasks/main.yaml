@@ -1,7 +1,6 @@
 ---
-# tasks file for hyprland_repo role
-
 - name: Ensure dnf-plugins-core is installed (needed for copr)
+  become: true
   package:
     name: "{{ dnf_plugins_package }}"
     state: present
@@ -15,16 +14,19 @@
   command: dnf makecache
 
 - name: Update all packages to the latest version
+  become: true
   ansible.builtin.package:
     name: "*"
     state: latest
 
 - name: Install Hyprland and related packages
+  become: true
   ansible.builtin.package:
     name: "{{ hyprland_packages }}"
     state: present
 
 - name: Ensure WLR_NO_HARDWARE_CURSORS is set in /etc/environment
+  become: true
   ansible.builtin.lineinfile:
     path: /etc/environment
     line: "{{ wlr_no_hardware_cursors }}"
