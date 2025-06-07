@@ -1,37 +1,35 @@
----
-- name: Ensure dnf-plugins-core is installed (needed for copr)
+- name: Install required system packages and configure environment
+  block:
+    - name: Ensure dnf-plugins-core is installed (needed for copr)
+      package:
+        name: "{{ dnf_plugins_package }}"
+        state: present
+
+    - name: Enable solopasha/hyprland Copr repository
+      command: dnf copr enable -y {{ hyprland_copr_repo }}
+      args:
+        creates: "{{ repo_file_path }}"
+
+    - name: Refresh DNF metadata
+      command: dnf makecache
+
+    - name: Update all packages to the latest version
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+
+    - name: Install Hyprland and related packages
+      ansible.builtin.package:
+        name: "{{ hyprland_packages }}"
+        state: present
+
+    - name: Ensure WLR_NO_HARDWARE_CURSORS is set in /etc/environment
+      ansible.builtin.lineinfile:
+        path: /etc/environment
+        line: "{{ wlr_no_hardware_cursors }}"
+        create: yes
+        state: present
   become: true
-  package:
-    name: "{{ dnf_plugins_package }}"
-    state: present
-
-- name: Enable solopasha/hyprland Copr repository
-  command: dnf copr enable -y {{ hyprland_copr_repo }}
-  args:
-    creates: "{{ repo_file_path }}"
-
-- name: Refresh DNF metadata
-  command: dnf makecache
-
-- name: Update all packages to the latest version
-  become: true
-  ansible.builtin.package:
-    name: "*"
-    state: latest
-
-- name: Install Hyprland and related packages
-  become: true
-  ansible.builtin.package:
-    name: "{{ hyprland_packages }}"
-    state: present
-
-- name: Ensure WLR_NO_HARDWARE_CURSORS is set in /etc/environment
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/environment
-    line: "{{ wlr_no_hardware_cursors }}"
-    create: yes
-    state: present
 
 - name: Ensure remote Pictures directory exists
   file:
