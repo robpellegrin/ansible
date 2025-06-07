@@ -1,5 +1,6 @@
 ---
 - name: Install development tools
+  become: true
   package:
     name:
       - git
@@ -9,5 +10,4 @@
       - g++
       - make
       - cppcheck
-
     state: present
