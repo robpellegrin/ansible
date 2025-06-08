@@ -28,38 +28,48 @@
         state: present
 
 - name: Ensure the user exists
-  ansible.built.user:
+  ansible.builtin.user:
     name: "{{ ansible_user }}"
     state: present
 
 - name: Download and install Oh-My-Zsh
-  become_user: "{{ ansible_user }}"
-  ansible.built.shell: |
-    yes | sh -c "$(curl -fsSL {{ zsh_install_script }})"
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      yes | sh -c "$(curl -fsSL {{ zsh_install_script }})"
+    executable: /bin/bash
   args:
     creates: "/home/{{ ansible_user }}/.oh-my-zsh"
+  become: true
+  become_user: "{{ ansible_user }}"
+  register: ohmyzsh_result
+  failed_when: ohmyzsh_result.rc != 0 and ohmyzsh_result.rc != 141
+
 
 - name: Install zsh-syntax-highlighting plugin
   become_user: "{{ ansible_user }}"
-  ansible.built.git:
+  ansible.builtin.git:
     repo: "{{ zsh_syntax_highlighting_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
     clone: true
     update: true
+    version: master
 
 - name: Install zsh-autosuggestions plugin
   become_user: "{{ ansible_user }}"
-  ansible.built.git:
+  ansible.builtin.git:
     repo: "{{ zsh_autosuggestions_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     clone: true
     update: true
+    version: master
 
 - name: Install powerlevel10k theme
   become_user: "{{ ansible_user }}"
-  ansible.built.git:
+  ansible.builtin.git:
     repo: "{{ powerlevel10k_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
     clone: true
+    version: master
     depth: 1  # Use --depth=1 to get a shallow clone
 ...
