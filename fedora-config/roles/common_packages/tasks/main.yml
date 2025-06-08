@@ -19,6 +19,7 @@
       ansible.builtin.package:
         name:
           - neovim
+          - nmtui
           - curl
           - wget
           - tree
@@ -28,10 +29,11 @@
           - nmap
         state: present
 
-    - name: C++ Development
+    - name: Development packages
       become: true
       ansible.builtin.package:
         name:
+          - git
           - gcc-c++
           - gdb
           - cmake
@@ -40,5 +42,7 @@
           - cppcheck
           - clang
           - clang-tools-extra
+          - gmp
+          - parallel
         state: present
 ...
