@@ -2,8 +2,8 @@
 - name: Configure Fedora system
   hosts: all
   roles:
+    - configure_dnf # Should remain first role.
     - common_packages
-    - configure_dnf
     - dotfile_setup
     - firefox
     - terminal_setup
