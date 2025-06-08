@@ -1,5 +1,6 @@
 ---
 - name: Ensure curl is installed
+  become: true
   ansible.builtin.package:
     name: curl
     state: present
@@ -18,7 +19,6 @@
   args:
     chdir: "/home/{{ ansible_user }}"
     creates: "/home/{{ ansible_user }}/.cargo/bin/rustc"
-
 
 - name: Add Rust environment to user's .bashrc
   ansible.builtin.lineinfile:
