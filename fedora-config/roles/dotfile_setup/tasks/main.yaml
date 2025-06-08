@@ -28,7 +28,7 @@
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ user_home }}/dotfiles"
-    version: latest
+    version: main
     update: true
     accept_hostkey: true
     key_file: "{{ user_home }}/.ssh/id_ed25519"
@@ -39,15 +39,17 @@
     name: stow
     state: present
 
-- name: Echo a message
+- name: Run stow --adopt .
   ansible.builtin.command: stow --adopt .
+  become: true
   changed_when: false
 
 - name: Restore dotfiles repo to clean state
   ansible.builtin.git:
-    repo: "git@github.com:robpellegrin/dotfiles.git"
+    repo: "{{ dotfiles_repo }}"
     dest: "{{ user_home }}/dotfiles"
-    version: latest
-    force: true
+    version: main
     update: true
+    accept_hostkey: true
+    key_file: "{{ user_home }}/.ssh/id_ed25519"
 ...
