@@ -1,15 +1,16 @@
 ---
-- name: Configure fedora system
+- name: Configure Fedora system
   hosts: all
   roles:
-    #- dotfile_setup
-    #- hyprland
+    - common_packages
+    - configure_dnf
+    - dotfile_setup
+    - firefox
     - terminal_setup
-    #- install_rust
-    #- disable_core_dump
-    #- harden_ssh
-    #- configure_dnf
-    #- firefox
-    #- flatpak_repo
-    #- flatpak_packages
+    - hyprland
+    - flatpak_repo
+    - flatpak_packages
+    - disable_core_dump
+    - harden_ssh
+    # - install_rust
 ...
