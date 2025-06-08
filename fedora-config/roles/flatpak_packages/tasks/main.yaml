@@ -1,16 +1,29 @@
 ---
-- name: Install Librewolf via Flatpak
-  community.general.flatpak:
-    name: io.gitlab.librewolf-community
-    state: present
+- name: Install Flatpaks
+  become: true
+  block:
+    - name: Install Librewolf via Flatpak
+      community.general.flatpak:
+        name: io.gitlab.librewolf-community
+        state: present
 
-- name: Install KeePassXC via Flatpak
-  community.general.flatpak:
-    name: org.keepassxc.KeePassXC
-    state: present
+    - name: Install KeePassXC via Flatpak
+      community.general.flatpak:
+        name: org.keepassxc.KeePassXC
+        state: present
 
-- name: Install Visual Studio Code via Flatpak
-  community.general.flatpak:
-    name: com.visualstudio.code
-    state: absent
+    - name: Install Mozilla Thunderbird via Flatpak
+      community.general.flatpak:
+        name: org.mozilla.Thunderbird
+        state: present
+
+    - name: Install Fedora Media Writer via Flatpak
+      community.general.flatpak:
+        name: org.fedoraproject.MediaWriter
+        state: present
+
+    # - name: Install Visual Studio Code via Flatpak
+      # community.general.flatpak:
+        # name: com.visualstudio.code
+        # state: present
 ...
