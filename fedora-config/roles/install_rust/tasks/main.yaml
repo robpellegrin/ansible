@@ -1,6 +1,4 @@
 ---
-# tasks file for rust_install role
-
 - name: Ensure curl is installed
   ansible.builtin.package:
     name: curl
