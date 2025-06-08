@@ -10,6 +10,8 @@
           - gwenview
           - okular
           - vlc
+          - firefox
+          - kate
         state: present
 
     - name: Terminal tools
@@ -23,7 +25,20 @@
           - htop
           - btop
           - bat
-          - eza
           - nmap
+        state: present
+
+    - name: C++ Development
+      become: true
+      ansible.builtin.package:
+        name:
+          - gcc-c++
+          - gdb
+          - cmake
+          - make
+          - valgrind
+          - cppcheck
+          - clang
+          - clang-tools-extra
         state: present
 ...
