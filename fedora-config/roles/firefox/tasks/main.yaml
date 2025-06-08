@@ -2,6 +2,11 @@
 - name: Configure firefox
   become: true
   block:
+    - name: Ensure Firefox is installed
+      ansible.builtin.package:
+        name: firefox
+        state: present
+
     - name: Copy firefox.cfg to the specified path
       ansible.builtin.copy:
         src: firefox.cfg
