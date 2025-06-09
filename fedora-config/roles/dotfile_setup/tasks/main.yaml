@@ -39,9 +39,11 @@
     name: stow
     state: present
 
-- name: Run stow --adopt .
-  ansible.builtin.command: stow --adopt .
-  become: true
+- name: Run stow --adopt inside ~/dotfiles
+  ansible.builtin.command:
+    cmd: stow --adopt .
+    chdir: "{{ ansible_user_dir }}/dotfiles"  # Full path to dotfiles
+  become_user: "{{ ansible_user }}"
   changed_when: false
 
 - name: Restore dotfiles repo to clean state
@@ -52,4 +54,21 @@
     update: true
     accept_hostkey: true
     key_file: "{{ user_home }}/.ssh/id_ed25519"
+
+- name: Remove /etc/nanorc if it exists
+  ansible.builtin.file:
+    path: /etc/nanorc
+    state: absent
+  become: true
+  become_user: root
+
+- name: Create symlink for /etc/nanorc to dotfiles version
+  ansible.builtin.file:
+    src: "/home/{{ ansible_user }}/dotfiles/etc/nanorc"
+    dest: "/etc/nanorc"
+    state: link
+    mode: '0444'
+  become: true
+  become_user: root
+
 ...
