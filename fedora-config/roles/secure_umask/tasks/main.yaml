@@ -1,0 +1,17 @@
+---
+- name: Ensure UMASK is set to secure value in /etc/login.defs
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK'
+    line: "UMASK           {{ umask_value }}"
+    state: present
+
+- name: Ensure HOME_MODE is set to secure value in /etc/login.defs
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^HOME_MODE'
+    line: "UMASK           {{ home_mode_value }}"
+    state: present
+...

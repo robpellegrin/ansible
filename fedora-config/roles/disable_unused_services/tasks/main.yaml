@@ -1,0 +1,13 @@
+# roles/disable_systemd_services/tasks/main.yml
+---
+- name: Disable systemd services
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  with_items: "{{ disabled_services }}"
+  when: disabled_services is defined
+  tags:
+    - disable_services
+...
