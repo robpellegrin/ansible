@@ -2,12 +2,6 @@
 # main.yaml for system_config role
 # This file includes various configuration tasks
 
-- name: Include configure DNF settings
-  include_tasks: configure-dnf.yaml
-
-- name: Include disable core dumps configuration
-  include_tasks: disable-core-dumps.yaml
-
 - name: Include disable protocols configuration
   include_tasks: disable-protocols.yaml
 
