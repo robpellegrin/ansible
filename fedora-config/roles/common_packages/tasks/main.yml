@@ -3,7 +3,6 @@
   become: true
   block:
     - name: Install common packages (okular, vlc, kate, ...)
-      become: true
       ansible.builtin.package:
         name:
           - python3-dnf # Needed for Ansible to interact with DNF.
@@ -15,7 +14,6 @@
         state: present
 
     - name: Terminal tools (neovim, htop, wget, ...)
-      become: true
       ansible.builtin.package:
         name:
           - neovim
@@ -30,7 +28,6 @@
         state: present
 
     - name: Development packages (git, gcc, make, ...)
-      become: true
       ansible.builtin.package:
         name:
           - git
@@ -47,7 +44,6 @@
         state: present
 
     - name: Misc utilites (net-tools)
-      become: true
       ansible.builtin.package:
         name:
           - net-tools # (ether-wake)
