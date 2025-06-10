@@ -1,31 +1,51 @@
 ---
-- name: Install Rust programming language using rustup
+- name: Install Rust via rustup script
   hosts: all
-  become: yes
+  become: false
   vars:
-    rust_install_script_url: https://sh.rustup.rs
-    rust_user: "{{ ansible_user }}"  # You can override this if needed
-
+    rust_script_url: "https://sh.rustup.rs"
+    rust_script_dest: "/tmp/rustup-init.sh"
+    rust_home: "/home/{{ ansible_user }}"
   tasks:
     - name: Ensure curl is installed
-      package:
+      become: true
+      ansible.builtin.package:
         name: curl
         state: present
 
-    - name: Download and install Rust using rustup
-      become: false
-      shell: |
-        curl --proto '=https' --tlsv1.2 -sSf {{ rust_install_script_url }} | sh -s -- -y
+    - name: Download Rust installation script
+      ansible.builtin.get_url:
+        url: "{{ rust_script_url }}"
+        dest: "{{ rust_script_dest }}"
+        mode: '0755'
+
+    - name: Run Rust installation script
+      ansible.builtin.shell: |
+        set -o pipefail
+        "{{ rust_script_dest }}" -y | tee /tmp/rust_install.log
       args:
         executable: /bin/bash
-        chdir: "/home/{{ rust_user }}"
-        creates: "/home/{{ rust_user }}/.cargo/bin/rustc"
+        chdir: "{{ rust_home }}"
+        creates: "{{ rust_home }}/.cargo/bin/rustc"
 
-    - name: Add Rust environment to user's .bashrc
-      become: false
-      lineinfile:
-        path: "/home/{{ rust_user }}/.bashrc"
-        line: 'source $HOME/.cargo/env'
-        insertafter: EOF
-        create: yes
+    - name: Ensure Rust environment is sourced in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ rust_home }}/.bashrc"
+        line: 'source "$HOME/.cargo/env"'
+        create: true
+        state: present
+        mode: "0600"
+
+    - name: Check if 'eza' is in the PATH
+      ansible.builtin.command: which eza
+      register: eza_check
+      ignore_errors: true
+      changed_when: eza_check.rc != 0
+
+    - name: Install 'eza' with cargo if not present
+      ansible.builtin.command: cargo install { eza }
+      environment:
+        PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+      when: eza_check.rc != 0
+      changed_when: eza_check.rc != 0
 ...
