@@ -1,0 +1,12 @@
+- name: Harden sysctl values in /etc/sysctl.d/60-secured-values.conf
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/60-secured-values.conf
+    mode: '0644'
+    owner: root
+    group: root
+    content: |
+      {% for setting in secure_sysctl_settings_settings %}
+      {{ setting }}
+      {% endfor %}
+...

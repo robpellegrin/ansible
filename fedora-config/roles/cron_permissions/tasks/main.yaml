@@ -1,0 +1,29 @@
+---
+- name: Harden file permissions in /etc/
+  become: true
+  block:
+    - name: Set permissions on individual files
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        owner: root
+        group: root
+        mode: "{{ item.mode }}"
+      loop:
+        - { path: "/etc/at.deny", mode: "0600" }
+        - { path: "/etc/cron.deny", mode: "0600" }
+        - { path: "/etc/crontab", mode: "0600" }
+
+    - name: Set permissions on cron directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        owner: root
+        group: root
+        mode: "0700"
+        recurse: true
+      loop:
+        - /etc/cron.d
+        - /etc/cron.daily
+        - /etc/cron.hourly
+        - /etc/cron.weekly
+        - /etc/cron.monthly
+...
