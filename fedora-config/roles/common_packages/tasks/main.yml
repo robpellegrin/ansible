@@ -2,7 +2,7 @@
 - name: Install various packages
   become: true
   block:
-    - name: Install common packages
+    - name: Install common packages (okular, vlc, kate, ...)
       become: true
       ansible.builtin.package:
         name:
@@ -14,7 +14,7 @@
           - kate
         state: present
 
-    - name: Terminal tools
+    - name: Terminal tools (neovim, htop, wget, ...)
       become: true
       ansible.builtin.package:
         name:
@@ -29,7 +29,7 @@
           - nmap
         state: present
 
-    - name: Development packages
+    - name: Development packages (git, gcc, make, ...)
       become: true
       ansible.builtin.package:
         name:
@@ -44,5 +44,12 @@
           - clang-tools-extra
           - gmp
           - parallel
+        state: present
+
+    - name: Misc utilites (net-tools)
+      become: true
+      ansible.builtin.package:
+        name:
+          - net-tools # (ether-wake)
         state: present
 ...
