@@ -12,5 +12,10 @@
     - flatpak_packages
     - disable_core_dump
     - harden_ssh
-    # - install_rust
+    - disable_unused_services
+    - secure_umask
+    - secure_sysctl_settings
+    - disable_network_protocols
+    - cron_permissions
+    - install_rust
 ...
