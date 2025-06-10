@@ -1,7 +1,7 @@
 ---
-zsh_install_script: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
-zsh_syntax_highlighting_repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-zsh_autosuggestions_repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
-powerlevel10k_repo: "https://github.com/romkatv/powerlevel10k.git"
-ansible_python_interpreter: /usr/bin/python3
+terminal_setup_zsh_install_script: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+terminal_setup_zsh_syntax_highlighting_repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+terminal_setup_zsh_autosuggestions_repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
+terminal_setup_powerlevel10k_repo: "https://github.com/romkatv/powerlevel10k.git"
+terminal_setup_ansible_python_interpreter: /usr/bin/python3
 ...
