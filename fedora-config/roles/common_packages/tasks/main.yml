@@ -19,7 +19,7 @@
       ansible.builtin.package:
         name:
           - neovim
-          - nmtui
+          # - nmtui
           - curl
           - wget
           - tree
