@@ -1,4 +1,4 @@
-ssh_parameters:
+harden_ssh_parameters:
   - { key: 'AllowTcpForwarding', value: 'no' }
   - { key: 'ClientAliveCountMax', value: '2' }
   - { key: 'LogLevel', value: 'VERBOSE' }

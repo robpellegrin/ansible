@@ -3,13 +3,13 @@
   block:
     - name: Ensure dnf-plugins-core is installed (needed for copr)
       ansible.builtin.package:
-        name: "{{ dnf_plugins_package }}"
+        name: "{{ hyprland_dnf_plugins_package }}"
         state: present
 
     - name: Enable solopasha/hyprland Copr repository
       ansible.builtin.command: dnf copr enable -y {{ hyprland_copr_repo }}
       args:
-        creates: "{{ repo_file_path }}"
+        creates: "{{ hyprland_repo_file_path }}"
 
     - name: Refresh DNF metadata
       ansible.builtin.command: dnf makecache
@@ -23,7 +23,7 @@
     - name: Ensure WLR_NO_HARDWARE_CURSORS is set in /etc/environment
       ansible.builtin.lineinfile:
         path: /etc/environment
-        line: "{{ wlr_no_hardware_cursors }}"
+        line: "{{ hyprland_wlr_no_hardware_cursors }}"
         create: true
         state: present
         mode: "0600"
@@ -36,8 +36,8 @@
 
 - name: Copy wallpaper.png to remote Pictures folder
   ansible.builtin.copy:
-    src: "{{ local_wallpaper_path }}"
-    dest: "{{ remote_wallpaper_path }}"
+    src: "{{ hyprland_local_wallpaper_path }}"
+    dest: "{{ hyprland_remote_wallpaper_path }}"
     mode: '0600'
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

@@ -4,10 +4,10 @@
   block:
     - name: Install Flatpak
       ansible.builtin.package:
-        name: "{{ flatpak_package_name }}"
+        name: "{{ flatpak_repo_flatpak_package_name }}"
         state: present
 
     - name: Add Flathub repository to Flatpak
-      ansible.builtin.command: flatpak remote-add --if-not-exists flathub "{{ flathub_repo_url }}"
+      ansible.builtin.command: flatpak remote-add --if-not-exists flathub "{{ flatpak_repo_flathub_repo_url }}"
       changed_when: false
 ...

@@ -1,2 +1,2 @@
-dotfiles_repo: "git@github.com:robpellegrin/dotfiles.git"
-user_home: "{{ ansible_user_dir }}"
+dotfile_setup_dotfiles_repo: "git@github.com:robpellegrin/dotfiles.git"
+dotfile_setup_user_home: "{{ ansible_user_dir }}"

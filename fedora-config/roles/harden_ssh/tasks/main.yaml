@@ -11,5 +11,5 @@
         create: true
         backup: true
         mode: "0600"
-      loop: "{{ ssh_parameters }}"
+      loop: "{{ harden_ssh_parameters }}"
 ...

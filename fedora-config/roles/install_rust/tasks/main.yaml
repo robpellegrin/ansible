@@ -7,7 +7,7 @@
 
 - name: Download Rust install script
   ansible.builtin.get_url:
-    url: "{{ rust_install_script_url }}"
+    url: "{{ install_rust_script_url }}"
     dest: "/home/{{ ansible_user }}/rustup-init.sh"
     mode: '0755'
     owner: "{{ ansible_user }}"
@@ -20,9 +20,9 @@
     chdir: "/home/{{ ansible_user }}"
     creates: "/home/{{ ansible_user }}/.cargo/bin/rustc"
 
-- name: Add Rust environment to user's .bashrc
+- name: Add Rust environment to .custom_path
   ansible.builtin.lineinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
+    path: "/home/{{ ansible_user }}/.custom_path"
     line: 'source $HOME/.cargo/env'
     insertafter: EOF
     create: true

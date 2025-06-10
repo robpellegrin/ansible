@@ -1,10 +1,9 @@
 ---
 hyprland_copr_repo: "solopasha/hyprland"
-dnf_plugins_package: "dnf-plugins-core"
-repo_file_path: "/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:solopasha:hyprland.repo"
-
-local_wallpaper_path: "{{ lookup('env', 'HOME') }}/Pictures/wallpaper.png"
-remote_wallpaper_path: "/home/{{ ansible_user }}/Pictures/wallpaper.png"
+hyprland_dnf_plugins_package: "dnf-plugins-core"
+hyprland_repo_file_path: "/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:solopasha:hyprland.repo"
+hyprland_local_wallpaper_path: "{{ lookup('env', 'HOME') }}/Pictures/wallpaper.png"
+hyprland_remote_wallpaper_path: "/home/{{ ansible_user }}/Pictures/wallpaper.png"
 
 hyprland_packages:
   - hyprland
@@ -21,6 +20,6 @@ hyprland_packages:
   - hyprsunset
 
 # Environment variable to disable hardware cursors in Hyprland
-wlr_no_hardware_cursors: "WLR_NO_HARDWARE_CURSORS=1"
+hyprland_wlr_no_hardware_cursors: "WLR_NO_HARDWARE_CURSORS=1"
 
 ...

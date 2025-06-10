@@ -1,4 +1,3 @@
-# roles/disable_systemd_services/tasks/main.yml
 ---
 - name: Disable systemd services
   become: true
@@ -6,8 +5,8 @@
     name: "{{ item }}"
     enabled: false
     state: stopped
-  with_items: "{{ disabled_services }}"
-  when: disabled_services is defined
+  with_items: "{{ disable_unused_services_disabled_services }}"
+  when: disable_unused_services_disabled_services is defined
   tags:
     - disable_services
 ...

@@ -16,18 +16,18 @@
     - name: Copy autoconfig.js to the specified path
       ansible.builtin.copy:
         src: autoconfig.js
-        dest: "{{ autoconfig_js_path }}"
+        dest: "{{ firefox_autoconfig_js_path }}"
         mode: '0644'
 
     - name: Ensure the policies directory exists
       ansible.builtin.file:
-        path: "{{ policies_dir }}"
+        path: "{{ firefox_policies_dir }}"
         state: directory
         mode: '0755'
 
     - name: Copy policies.json to the specified path
       ansible.builtin.copy:
         src: policies.json
-        dest: "{{ policies_json_path }}"
+        dest: "{{ firefox_policies_json_path }}"
         mode: '0644'
 ...

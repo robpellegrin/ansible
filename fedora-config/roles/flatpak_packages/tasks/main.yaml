@@ -21,9 +21,4 @@
       community.general.flatpak:
         name: org.fedoraproject.MediaWriter
         state: present
-
-    # - name: Install Visual Studio Code via Flatpak
-      # community.general.flatpak:
-        # name: com.visualstudio.code
-        # state: present
 ...

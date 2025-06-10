@@ -1,5 +1,5 @@
 ---
-disabled_services:
+disable_unused_services_disabled_services:
   - ModemManager.service
   - atd.service
   - abrtd.service

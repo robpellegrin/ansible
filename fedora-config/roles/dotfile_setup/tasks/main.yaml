@@ -1,37 +1,38 @@
 # roles/dotfiles/tasks/main.yml
 - name: Ensure ~/.ssh directory exists
   ansible.builtin.file:
-    path: "{{ user_home }}/.ssh"
+    path: "{{ dotfile_setup_user_home }}/.ssh"
     state: directory
     mode: '0700'
 
 - name: Copy private SSH key
   ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
-    dest: "{{ user_home }}/.ssh/id_ed25519"
+    dest: "{{ dotfile_setup_user_home }}/.ssh/id_ed25519"
     mode: '0600'
 
 - name: Copy SSH public key
   ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
-    dest: "{{ user_home }}/.ssh/id_ed25519.pub"
+    dest: "{{ dotfile_setup_user_home }}/.ssh/id_ed25519.pub"
     mode: '0644'
 
 - name: Add GitHub to known_hosts
   ansible.builtin.known_hosts:
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan github.com 2>/dev/null') }}"
-    path: "{{ user_home }}/.ssh/known_hosts"
+    path: "{{ dotfile_setup_user_home }}/.ssh/known_hosts"
     state: present
 
 - name: Ensure dotfiles repo is cloned and current
   ansible.builtin.git:
-    repo: "{{ dotfiles_repo }}"
-    dest: "{{ user_home }}/dotfiles"
+    repo: "{{ dotfile_setup_dotfiles_repo }}"
+    dest: "{{ dotfile_setup_user_home }}/dotfiles"
     version: main
     update: true
+    force: true
     accept_hostkey: true
-    key_file: "{{ user_home }}/.ssh/id_ed25519"
+    key_file: "{{ dotfile_setup_user_home }}/.ssh/id_ed25519"
 
 - name: Ensure stow is installed
   become: true
@@ -39,21 +40,23 @@
     name: stow
     state: present
 
-- name: Run stow --adopt inside ~/dotfiles
+- name: Stow ~/dotfiles
+  become: true
   ansible.builtin.command:
     cmd: stow --adopt .
-    chdir: "{{ ansible_user_dir }}/dotfiles"  # Full path to dotfiles
+    chdir: "{{ ansible_user_dir }}/dotfiles"
   become_user: "{{ ansible_user }}"
   changed_when: false
 
 - name: Restore dotfiles repo to clean state
   ansible.builtin.git:
-    repo: "{{ dotfiles_repo }}"
-    dest: "{{ user_home }}/dotfiles"
+    repo: "{{ dotfile_setup_dotfiles_repo }}"
+    dest: "{{ dotfile_setup_user_home }}/dotfiles"
     version: main
+    force: true
     update: true
     accept_hostkey: true
-    key_file: "{{ user_home }}/.ssh/id_ed25519"
+    key_file: "{{ dotfile_setup_user_home }}/.ssh/id_ed25519"
 
 - name: Remove /etc/nanorc if it exists
   ansible.builtin.file:
@@ -70,5 +73,4 @@
     mode: '0444'
   become: true
   become_user: root
-
 ...

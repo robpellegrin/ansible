@@ -5,27 +5,27 @@
       ansible.builtin.lineinfile:
         path: /etc/security/limits.conf
         regexp: '^(\*|.*)\s+(soft|hard)\s+core\s+'
-        line: "*               soft    core            {{ core_limit_soft }}"
+        line: "*               soft    core            {{ disable_core_dump_core_limit_soft }}"
         state: present
 
     - name: Ensure hard core dump limits are set to 0 for all users
       ansible.builtin.lineinfile:
         path: /etc/security/limits.conf
         regexp: '^(\*|.*)\s+(soft|hard)\s+core\s+'
-        line: "*               hard    core            {{ core_limit_hard }}"
+        line: "*               hard    core            {{ disable_core_dump_core_limit_hard }}"
         state: present
 
     - name: Ensure core dumps are disabled for root user
       ansible.builtin.lineinfile:
         path: /etc/security/limits.conf
         regexp: '^root\s+(soft|hard)\s+core\s+'
-        line: "root            soft    core            {{ root_core_limit_soft }}"
+        line: "root            soft    core            {{ disable_core_dump_root_core_limit_soft }}"
         state: present
 
     - name: Ensure hard core dump limit for root user is set to 0
       ansible.builtin.lineinfile:
         path: /etc/security/limits.conf
         regexp: '^root\s+(soft|hard)\s+core\s+'
-        line: "root            hard    core            {{ root_core_limit_hard }}"
+        line: "root            hard    core            {{ disable_core_dump_root_core_limit_hard }}"
         state: present
 ...
