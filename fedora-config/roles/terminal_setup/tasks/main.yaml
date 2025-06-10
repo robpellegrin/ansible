@@ -36,7 +36,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      yes | sh -c "$(curl -fsSL {{ zsh_install_script }})"
+      yes | sh -c "$(curl -fsSL {{ terminal_setup_zsh_install_script }})"
     executable: /bin/bash
   args:
     creates: "/home/{{ ansible_user }}/.oh-my-zsh"
@@ -47,27 +47,30 @@
 
 
 - name: Install zsh-syntax-highlighting plugin
+  become: true
   become_user: "{{ ansible_user }}"
   ansible.builtin.git:
-    repo: "{{ zsh_syntax_highlighting_repo }}"
+    repo: "{{ terminal_setup_zsh_syntax_highlighting_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
     clone: true
     update: true
     version: master
 
 - name: Install zsh-autosuggestions plugin
+  become: true
   become_user: "{{ ansible_user }}"
   ansible.builtin.git:
-    repo: "{{ zsh_autosuggestions_repo }}"
+    repo: "{{ terminal_setup_zsh_autosuggestions_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     clone: true
     update: true
     version: master
 
 - name: Install powerlevel10k theme
+  become: true
   become_user: "{{ ansible_user }}"
   ansible.builtin.git:
-    repo: "{{ powerlevel10k_repo }}"
+    repo: "{{ terminal_setup_powerlevel10k_repo }}"
     dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
     clone: true
     version: master
