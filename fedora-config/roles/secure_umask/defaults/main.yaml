@@ -1,4 +1,4 @@
 ---
-umask_value: "077"
-home_mode_value: "0700"
+secure_umask_umask_value: "077"
+secure_umask_home_mode_value: "0700"
 ...
