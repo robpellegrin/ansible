@@ -1,0 +1,26 @@
+---
+- name: Configure unattended-upgrades
+  hosts: all
+  become: true
+  tasks:
+    - name: Update APT package cache
+      ansible.builtin.apt:
+        pkg: unattended-upgrades
+        state: present
+
+    - name: Copy the 50unattended-upgrades file from template
+      ansible.builtin.template:
+        src: templates/50unattended-upgrades
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Restart unattended-upgrades service
+
+  handlers:
+    - name: Restart unattended-upgrades service
+      ansible.builtin.systemd:
+        name: unattended-upgrades
+        state: restarted
+        enabled: true

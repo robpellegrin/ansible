@@ -1,0 +1,24 @@
+- name: Ensure rsyslog forwards logs to remote server
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install rsyslog
+      ansible.builtin.apt:
+        name: rsyslog
+        state: present
+        update_cache: yes
+
+    - name: Add rsyslog config to forward logs to remote server
+      copy:
+        dest: /etc/rsyslog.d/remote-logging.conf
+        content: |
+          module(load="omfwd")
+          *.* @@192.168.1.199:514
+      notify: Restart rsyslog
+
+  handlers:
+    - name: Restart rsyslog
+      ansible.builtin.service:
+        name: rsyslog
+        state: stopped

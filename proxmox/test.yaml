@@ -1,0 +1,30 @@
+---
+- name: Configure ntfy to list updates
+  hosts: all
+  become: true
+  tasks:
+    - name: "Ensure timezone information is correct so cron runs as expected."
+      ansible.builtin.timezone:
+        name: America/New_York
+
+    - name: "Ensure curl is installed."
+      ansible.builtin.apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: "Copy the ntfy script file from template."
+      ansible.builtin.template:
+        src: templates/ntfy-list-updates.bash
+        dest: /usr/local/bin/ntfy-list-updates.bash
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: "Ensure a cron job exists to execute the script daily at 08:00"
+      ansible.builtin.cron:
+        name: "ntfy list updates"
+        minute: "0"
+        hour: "8"
+        job: "bash /usr/local/bin/ntfy-list-updates.bash"
+...
