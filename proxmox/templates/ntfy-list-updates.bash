@@ -1,16 +1,16 @@
 #!/bin/bash
 
 OUTFILE="$(mktemp /tmp/update-list-XXXX.tmp)"
-ENDPOINT="192.168.1.50"
+ENDPOINT="https://ntfy.robpellegrin.duckdns.org"
 
-echo "$(hostname) has the following updates available: " > $OUTFILE;
-apt update >/dev/null;
-apt list --upgradeable | awk '{print $1}' >> $OUTFILE;
+apt list --upgradeable | awk '{print $1}' >> $OUTFILE
 
-if [ $(wc -l $OUTFILE | awk '{print $1}' ) -gt 2 ]; then
-  curl -d "$(cat $OUTFILE)" "$ENDPOINT/test"
+OUTPUT=$(cat $OUTFILE | sed -n '2,$p')
+HEADER="$(hostname): updates"
+DATA=$(printf "%s\n    %s" "$HEADER" "$OUTPUT")
+
+if [ $(wc -l $OUTFILE | awk '{print $1}')  -eq 1 ]; then
+  curl -d "$(hostname) has no updates avaliable" "$ENDPOINT/debug"
 else
-  curl -d "$(hostname) -- No Updates" "$ENDPOINT/test";
+  curl -d "$DATA" "$ENDPOINT/Proxmox"
 fi
-
-exit 0
