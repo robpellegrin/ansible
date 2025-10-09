@@ -7,13 +7,25 @@
       apt:
         update_cache: yes
 
-    - name: Install required packages
+    - name: Install OpenMPI and related packages
+      apt:
+        name:
+          - build-essential
+          - nfs-common
+          - libopenmpi-dev
+        state: present
+
+    - name: Install mpich
+      apt:
+        name:
+          - libmpich-dev
+        state: present
+
+    - name: Install extras (ln-sensors, btop, etc)
       apt:
         name:
           - lm-sensors
           - htop
-          - build-essential
-          - libopenmpi-dev
-          - nfs-common
           - btop
         state: present
+...
