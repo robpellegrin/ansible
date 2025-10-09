@@ -28,4 +28,11 @@
           - htop
           - btop
         state: present
+
+    - name: Install BLAS library
+      apt:
+        name:
+          - libblas-dev
+        state: present
+
 ...
