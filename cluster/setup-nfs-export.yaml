@@ -4,7 +4,7 @@
   become: true
 
   vars:
-    username: manager
+    username: mpi
     mpi_dir: "/home/{{ username }}/MPI"
     export_options: "(rw,sync,no_subtree_check)"
 
@@ -29,4 +29,4 @@
         line: "{{ mpi_dir }} *(rw,sync,no_subtree_check)"
         state: present
         create: yes
-        validate: '/usr/sbin/exportfs -ra && /usr/sbin/exportfs'
+#        validate: '/usr/sbin/exportfs -ra && /usr/sbin/exportfs'
