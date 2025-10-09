@@ -1,0 +1,27 @@
+---
+- name: Mount NFS volume on worker nodes
+  hosts: cluster_nodes
+  become: true
+
+  vars:
+    username: mpi
+    host_ip: "192.168.5.50"
+    mpi_dir: "/home/{{ username }}/MPI"
+    export_options: "(rw,sync,no_subtree_check)"
+
+  tasks:
+    - name: Ensure the MPI directory exists in the user's home
+      file:
+        path: "{{ mpi_dir }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0755'
+
+    - name: Add MPI directory to /etc/exports if not already present
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ host_ip }}:{{ mpi_dir }} {{ mpi_dir }} nfs defaults 0 0"
+        state: present
+        create: yes
+...
