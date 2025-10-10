@@ -1,0 +1,13 @@
+# Runs the "mount -a" command on all hosts.
+# This is useful when the manager node boots after a worker node, preventing the
+# NFS volume from mounting properly.
+---
+- name: Mount all filesystems
+  hosts: all
+  become: true
+  tasks:
+    - name: Mount all filesystems
+      ansible.builtin.command:
+        cmd: mount -a
+      ignore_errors: yes
+...
