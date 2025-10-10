@@ -1,0 +1,21 @@
+---
+# Logs are disabled to reduce writes to the microsd cards used to host the operating system.
+- name: Mount NFS volume on worker nodes
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add tmpfs mount for /var/log
+      lineinfile:
+        path: /etc/fstab
+        line: "tmpfs /var/log tmpfs defaults,noatime,nosuid,size=10m 0 0"
+        state: present
+        create: yes
+
+    - name: Add tmpfs mount for /var/log.hdd
+      lineinfile:
+        path: /etc/fstab
+        line: "tmpfs /var/log.hdd tmpfs defaults,noatime,nosuid,size=10m 0 0"
+        state: present
+        create: yes
+...
