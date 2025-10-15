@@ -5,14 +5,15 @@
 
   vars:
     username: mpi
-    host_ip: "192.168.5.50"
-    mpi_dir: "/home/{{ username }}/MPI"
+    host_ip: "192.168.1.114"
+    host_dir: "/home/user/MPI"
+    target_dir: "/home/{{ username }}/MPI"
     export_options: "(rw,sync,no_subtree_check)"
 
   tasks:
     - name: Ensure the MPI directory exists in the user's home
       file:
-        path: "{{ mpi_dir }}"
+        path: "{{ target_dir }}"
         state: directory
         owner: "{{ username }}"
         group: "{{ username }}"
@@ -21,7 +22,7 @@
     - name: Add MPI directory to /etc/exports if not already present
       lineinfile:
         path: /etc/fstab
-        line: "{{ host_ip }}:{{ mpi_dir }} {{ mpi_dir }} nfs defaults 0 0"
+        line: "{{ host_ip }}:{{ host_dir }} {{ target_dir }} nfs defaults 0 0"
         state: present
-        create: yes
+        create: true
 ...
