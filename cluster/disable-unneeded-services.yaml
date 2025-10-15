@@ -1,35 +1,17 @@
 ---
 - name: Disable unnecessary services for OpenMPI cluster
-  hosts: manager_node 
-  become: true 
+  hosts: cluster_nodes
+  become: true
   tasks:
-    - name: Disable dbus.service
+    - name: Disable unnecessary services
       ansible.builtin.systemd:
-        name: dbus.service
+        name: "{{ item }}"
         enabled: no
         state: stopped
-
-    - name: Disable systemd-journald
-      systemd:
-        name: systemd-journald
-        enabled: no
-        state: stopped
-
-    - name: Disable getty@tty1.service
-      systemd:
-        name: getty@tty1.service
-        enabled: no
-        state: stopped
-
-    - name: Disable serial-getty@ttyAML0.service
-      systemd:
-        name: serial-getty@ttyAML0.service
-        enabled: no
-        state: stopped
-
-    - name: Disable systemd-timesyncd.service
-      systemd:
-        name: systemd-timesyncd.service
-        enabled: no
-        state: stopped
+      loop:
+        - cron.service
+        - getty@tty1.service
+        - serial-getty@ttyAML0.service
+        - systemd-timesyncd.service
+        - wpa_supplicant.service
 ...
