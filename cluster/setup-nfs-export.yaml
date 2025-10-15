@@ -30,3 +30,4 @@
         state: present
         create: yes
 #        validate: '/usr/sbin/exportfs -ra && /usr/sbin/exportfs'
+...
