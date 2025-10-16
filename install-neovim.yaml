@@ -21,6 +21,7 @@
           - build-essential
           - shfmt
           - clangd
+          - npm
           - clang-format
         state: present
         update_cache: true
