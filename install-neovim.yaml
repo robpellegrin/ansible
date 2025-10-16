@@ -19,8 +19,11 @@
           - git
           - make
           - build-essential
+          - shfmt
+          - clangd
+          - clang-format
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Remove existing Neovim directory if it exists
       file:
