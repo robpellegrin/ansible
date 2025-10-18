@@ -6,12 +6,11 @@
     - name: Disable unnecessary services
       ansible.builtin.systemd:
         name: "{{ item }}"
-        enabled: no
+        enabled: false
         state: stopped
       loop:
         - cron.service
         - getty@tty1.service
         - serial-getty@ttyAML0.service
-        - systemd-timesyncd.service
         - wpa_supplicant.service
 ...
