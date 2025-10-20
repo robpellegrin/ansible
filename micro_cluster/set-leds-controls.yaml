@@ -1,8 +1,6 @@
 ---
-- name: Set LED trigger
-  hosts: cluster_nodes
+- hosts: cluster_nodes 
   become: true
-  tasks:
-    - name: Set the green LED trigger to 'activity'
-      ansible.builtin.shell: echo activity | tee /sys/class/leds/blue\:status/trigger
+  roles:
+    - ../micro_cluster/set_led_colors
 ...

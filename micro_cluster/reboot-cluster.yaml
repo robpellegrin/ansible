@@ -1,10 +1,7 @@
 ---
-- name: Reboot all nodes
-  hosts: all
+- hosts: cluster_nodes 
   become: true
-  tasks:
-    - name: Reboot the node with 'shutdown -r now'
-      command: /sbin/shutdown -r now
-      async: 1  # Run the shutdown command in the background
-      poll: 0   # Don't wait for the shutdown command to finish
+  roles:
+    - ../common/reboot
+    - ../micro_cluster/set_led_colors
 ...
