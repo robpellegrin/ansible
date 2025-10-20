@@ -1,19 +1,6 @@
 ---
-- name: Shutdown worker nodes first
-  hosts: cluster_nodes
+- hosts: cluster_nodes 
   become: true
-  tasks:
-    - name: Shutdown worker node
-      ansible.builtin.command: systemctl poweroff
-      async: 1
-      poll: 0
-
-- name: Shutdown manager node last
-  hosts: manager_node
-  become: true
-  tasks:
-    - name: Shutdown manager node
-      ansible.builtin.command: systemctl poweroff
-      async: 1
-      poll: 0
+  roles:
+    - ../common/shutdown
 ...
