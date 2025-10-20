@@ -1,6 +1,6 @@
 ---
 - name: Update all Debian nodes
-  hosts: all
+  hosts: cluster_nodes 
   become: true
   tasks:
     - name: Update APT package cache
