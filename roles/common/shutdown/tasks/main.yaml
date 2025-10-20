@@ -1,9 +1,9 @@
 ---
-- name: Issu reboot command
+- name: Shutdown the node with 'shutdown now'
   become: true
   block:
-    - name: Reboot the node with 'shutdown -r now'
-      command: /sbin/shutdown -r now
+    - name: Issue shutdown command
+      command: /sbin/shutdown now
       async: 1  # Run the shutdown command in the background
       poll: 0   # Don't wait for the shutdown command to finish
 ...
