@@ -1,0 +1,5 @@
+username: mpi
+host_ip: "192.168.1.114"
+host_dir: "/home/user/MPI"
+target_dir: "/home/{{ username }}/MPI"
+export_options: "(rw,sync,no_subtree_check)"

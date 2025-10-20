@@ -1,0 +1,16 @@
+---
+- name: Install OpenMPI 
+  become: yes
+  block: 
+    - name: Install OpenMPI on Debian-based systems
+      ansible.builtin.package:
+        name: libopenmpi-dev
+        state: present
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Install OpenMPI on Fedora-based systems
+      ansible.builtin.package:
+        name: openmpi
+        state: present
+      when: ansible_facts['os_family'] == 'RedHat'
+...

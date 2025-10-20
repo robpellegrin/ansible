@@ -1,0 +1,19 @@
+---
+- name: Mount NFS volume on worker nodes
+  become: true
+  block:
+    - name: Ensure the MPI directory exists in the user's home
+      file:
+        path: "{{ target_dir }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0755'
+
+    - name: Add MPI directory to /etc/exports if not already present
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ host_ip }}:{{ host_dir }} {{ target_dir }} nfs defaults 0 0"
+        state: present
+        create: true
+...
