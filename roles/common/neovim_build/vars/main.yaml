@@ -1,0 +1,4 @@
+neovim_repo: https://github.com/neovim/neovim
+neovim_clone_dest: /tmp/neovim
+neovim_build_type: RelWithDebInfo
+release_version: "v0.11.4"

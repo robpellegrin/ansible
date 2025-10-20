@@ -1,0 +1,36 @@
+---
+- name: Ensure required packages are installed
+  apt:
+    name:
+      - ninja-build
+      - gettext
+      - cmake
+      - unzip
+      - curl
+      - git
+      - make
+      - build-essential
+    state: present
+    update_cache: true
+
+- name: Remove existing Neovim directory, if it exists
+  file:
+    path: "{{ neovim_clone_dest }}"
+    state: absent
+
+- name: Clone Neovim repository
+  git:
+    repo: "{{ neovim_repo }}"
+    dest: "{{ neovim_clone_dest }}"
+    version: "{{ release_version }}" 
+
+- name: Build Neovim
+  command: make CMAKE_BUILD_TYPE={{ neovim_build_type }}
+  args:
+    chdir: "{{ neovim_clone_dest }}"
+
+- name: Install Neovim
+  command: make install
+  args:
+    chdir: "{{ neovim_clone_dest }}"
+...
