@@ -1,8 +1,7 @@
 ---
 - name: Disable unnecessary services for OpenMPI cluster
-  hosts: cluster_nodes
   become: true
-  tasks:
+  block:
     - name: Disable unnecessary services
       ansible.builtin.systemd:
         name: "{{ item }}"
