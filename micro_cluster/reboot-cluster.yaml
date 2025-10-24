@@ -3,5 +3,4 @@
   become: true
   roles:
     - ../common/reboot
-    - ../micro_cluster/set_led_colors
 ...
