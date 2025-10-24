@@ -1,0 +1,4 @@
+username: mpi
+mpi_dir: "/home/{{ username }}/MPI"
+export_options: "(rw,sync,no_subtree_check)"
+

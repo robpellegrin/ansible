@@ -1,33 +1,6 @@
 ---
-- name: Set up NFS export for ~/MPI directory
-  hosts: manager_node
+- hosts: cluster_nodes 
   become: true
-
-  vars:
-    username: mpi
-    mpi_dir: "/home/{{ username }}/MPI"
-    export_options: "(rw,sync,no_subtree_check)"
-
-  tasks:
-    - name: Ensure the MPI directory exists in the user's home
-      file:
-        path: "{{ mpi_dir }}"
-        state: directory
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: '0755'
-
-    - name: Install NFS kernel server
-      apt:
-        name: nfs-kernel-server
-        state: present
-        update_cache: true
-
-    - name: Add MPI directory to /etc/exports if not already present
-      lineinfile:
-        path: /etc/exports
-        line: "{{ mpi_dir }} *(rw,sync,no_subtree_check)"
-        state: present
-        create: yes
-#        validate: '/usr/sbin/exportfs -ra && /usr/sbin/exportfs'
+  roles:
+    - ../micro_cluster/setup_nfs_export
 ...

@@ -1,0 +1,27 @@
+# Should only be run on the manager node!
+---
+- name: Set up NFS export for ~/MPI directory
+  become: true
+  block:
+    - name: Ensure the MPI directory exists in the user's home
+      ansible.builtin.file:
+        path: "{{ mpi_dir }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0755'
+
+    - name: Install NFS kernel server
+      ansible.builtin.package:
+        name: nfs-kernel-server
+        state: present
+        update_cache: true
+
+    - name: Add MPI directory to /etc/exports if not already present
+      ansible.builtin.lineinfile:
+        path: /etc/exports
+        line: "{{ mpi_dir }} *(rw,sync,no_subtree_check)"
+        state: present
+        create: yes
+#        validate: '/usr/sbin/exportfs -ra && /usr/sbin/exportfs'
+...
