@@ -1,0 +1,8 @@
+---
+- name: Set hostname on target machines
+  become: true
+  block:
+    - name: Set hostname to the desired value
+      hostname:
+        name: "{{ hostname }}"
+...
