@@ -1,5 +1,5 @@
 ---
-- name: Issu reboot command
+- name: Issue reboot command
   become: true
   block:
     - name: Reboot the node with 'shutdown -r now'
