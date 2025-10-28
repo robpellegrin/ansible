@@ -1,11 +1,12 @@
 ---
 - name: Update all containers/vms
-  hosts: all
+  hosts: containers, vms
   become: true
   tasks:
     - name: Update APT package cache
       ansible.builtin.apt:
         update_cache: true
+      changed_when: false
 
     - name: Perform a full upgrade of all packages
       ansible.builtin.apt:
