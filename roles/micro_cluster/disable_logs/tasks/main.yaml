@@ -1,10 +1,8 @@
 ---
 # Logs are disabled to reduce writes to the microsd cards used to host the operating system.
-- name: Mount NFS volume on worker nodes
-  hosts: all
+- name: Set all lots to tmpfs.
   become: true
-
-  tasks:
+  block:
     - name: Add tmpfs mount for /var/log
       lineinfile:
         path: /etc/fstab
