@@ -1,0 +1,6 @@
+openblas_repo: https://github.com/neovim/neovim
+openblas_clone_dest: /tmp/openblas
+install_path: /opt/openblas-coretexa53
+target: CORTEXA53
+release_version: "v0.3.30"
+

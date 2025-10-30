@@ -1,0 +1,31 @@
+---
+- name: Ensure required packages are installed
+  ansible.builtin.apt:
+    name:
+      - git
+      - cmake
+      - build-essential
+    state: present
+    update_cache: true
+
+- name: Remove existing Neovim directory, if it exists
+  ansible.builtin.file:
+    path: "{{ openblas_clone_dest }}"
+    state: absent
+
+- name: Clone OpenBLAS repository
+  ansible.builtin.git:
+    repo: "{{ openblas_repo }}"
+    dest: "{{ openblas_clone_dest }}"
+    version: "{{ release_version }}" 
+
+- name: Build OpenBLAS
+  command: make TARGET=CORTEXA53 USE_THREAD=0 -j4
+  args:
+    chdir: "{{ openblas_clone_dest }}"
+
+- name: Install OpenBLAS 
+  command: make TARGET="{{ target }}" USE_THREAD=0 -j4 PREFIX="{{ install_path }}" install
+  args:
+    chdir: "{{ openblas_clone_dest }}"
+...
