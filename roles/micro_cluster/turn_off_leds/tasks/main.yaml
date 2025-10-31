@@ -1,0 +1,7 @@
+---
+- name: Set the green LED trigger to '{{ target_trigger }}'
+  ansible.builtin.shell: echo {{ target_trigger }} | tee {{ green_led_trigger_path }} 
+
+- name: Set the blue LED brightness to '{{ led_off }}'
+  ansible.builtin.shell: echo {{ target_trigger }}| tee {{ blue_led_trigger_path }}
+...
