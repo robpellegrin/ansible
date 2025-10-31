@@ -3,12 +3,11 @@
   ansible.builtin.apt:
     name:
       - git
-      - cmake
       - build-essential
     state: present
     update_cache: true
 
-- name: Remove existing Neovim directory, if it exists
+- name: Remove existing OpenBLAS clone 
   ansible.builtin.file:
     path: "{{ openblas_clone_dest }}"
     state: absent
@@ -17,15 +16,40 @@
   ansible.builtin.git:
     repo: "{{ openblas_repo }}"
     dest: "{{ openblas_clone_dest }}"
-    version: "{{ release_version }}" 
+    version: "{{ release_version }}"
+#    update: true
+
+- name: "Copy the ntfy script file from template."
+  ansible.builtin.template:
+    src: templates/Makefile.rule
+    dest: "{{ openblas_clone_dest }}"
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Build OpenBLAS
-  command: make TARGET=CORTEXA53 USE_THREAD=0 -j4
+  command: make "{{ build_args }}" -j4
   args:
     chdir: "{{ openblas_clone_dest }}"
 
+- name: Remove existing OpenBLAS directory, if it exists
+  ansible.builtin.file:
+    path: "{{ openblas_install_path }}"
+    state: absent
+
 - name: Install OpenBLAS 
-  command: make TARGET="{{ target }}" USE_THREAD=0 -j4 PREFIX="{{ install_path }}" install
+  command: make {{ build_args }} PREFIX={{ openblas_install_path }} install
   args:
     chdir: "{{ openblas_clone_dest }}"
+
+- name: Ensure environment variables are set in /etc/environment
+  become: yes
+  lineinfile:
+    path: /etc/environment
+    regexp: '^{{ item.key }}='
+    line: '{{ item.key }}={{ item.value }}'
+    create: yes
+    state: present
+  loop: "{{ environment_variables | dict2items }}"
+
 ...
