@@ -1,6 +1,6 @@
 ---
 - name: Configure ntfy to list updates
-  hosts: all
+  hosts: containers, vms
   become: true
   tasks:
     - name: "Ensure timezone information is correct so cron runs as expected."
