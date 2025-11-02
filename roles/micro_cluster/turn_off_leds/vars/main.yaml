@@ -1,3 +1,3 @@
-blue_led_trigger_path: "/sys/class/leds/green:disk-activity/trigger"
-green_led_trigger_path: "/sys/class/leds/blue:status/trigger"
+blue_led_trigger_path: "/home/mpi/LEDs/blue_led/trigger"
+green_led_trigger_path: "/home/mpi/LEDs/green_led/trigger"
 target_trigger: "none"
