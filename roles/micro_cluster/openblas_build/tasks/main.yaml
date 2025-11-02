@@ -28,7 +28,7 @@
     mode: '0755'
 
 - name: Build OpenBLAS
-  command: make "{{ build_args }}" -j4
+  command: make
   args:
     chdir: "{{ openblas_clone_dest }}"
 
@@ -38,7 +38,7 @@
     state: absent
 
 - name: Install OpenBLAS 
-  command: make {{ build_args }} PREFIX={{ openblas_install_path }} install
+  command: make PREFIX={{ openblas_install_path }} install
   args:
     chdir: "{{ openblas_clone_dest }}"
 

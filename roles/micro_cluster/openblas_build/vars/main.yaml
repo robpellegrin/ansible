@@ -1,8 +1,8 @@
 openblas_repo: "https://github.com/OpenMathLib/OpenBLAS.git"
 openblas_clone_dest: "/home/mpi/OpenBLAS"
 openblas_install_path: "/opt/openblas" #"/home/mpi/.local/openblas"
-build_args: "TARGET=CORTEXA53"
-release_version: "v0.3.9"
+build_args: "TARGET=ARMV8"
+release_version: "v0.3.30"
 environment_variables:
   OMP_NUM_THREADS: "1"
   OPENBLAS_NUM_THREADS: "1"
