@@ -8,8 +8,8 @@
         enabled: false
         state: stopped
       loop:
+        - rsyslog.service
+        - systemd-journald.service
         - cron.service
-        - getty@tty1.service
-        - serial-getty@ttyAML0.service
         - wpa_supplicant.service
 ...
