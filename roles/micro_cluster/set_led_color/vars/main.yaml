@@ -1,1 +1,3 @@
-led_setting: activity
+green_led_setting: activity
+#blue_led_setting: none 
+blue_led_setting:  heartbeat

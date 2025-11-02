@@ -1,10 +1,7 @@
 ---
-- name: Check current green LED trigger
-  ansible.builtin.command: cat /sys/class/leds/blue:status/trigger
-  register: current_trigger
-  changed_when: false
+- name: Set the green LED trigger to '{{ green_led_setting }}'
+  ansible.builtin.shell: echo {{ green_led_setting }}| tee /home/mpi/LEDs/green_led/trigger
 
-- name: Set the green LED trigger to '{{ led_setting }}'
-  ansible.builtin.shell: echo {{ led_setting }}| tee /sys/class/leds/blue\:status/trigger
-  when: led_setting not in current_trigger.stdout
+- name: Set the blue LED trigger to '{{ blue_led_setting }}'
+  ansible.builtin.shell: echo {{ blue_led_setting }}| tee /home/mpi/LEDs/blue_led/trigger
 ...
