@@ -1,9 +1,9 @@
 ---
 - name: Ensure required packages are installed
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name:
       - git
-      - build-essential
+      # - build-essential # Debian specific
     state: present
     update_cache: true
 
@@ -17,7 +17,6 @@
     repo: "{{ openblas_repo }}"
     dest: "{{ openblas_clone_dest }}"
     version: "{{ release_version }}"
-#    update: true
 
 - name: "Copy the ntfy script file from template."
   ansible.builtin.template:
