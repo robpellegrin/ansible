@@ -1,7 +1,6 @@
 openblas_repo: "https://github.com/OpenMathLib/OpenBLAS.git"
 openblas_clone_dest: "/home/mpi/OpenBLAS"
-openblas_install_path: "/opt/openblas" #"/home/mpi/.local/openblas"
-build_args: "TARGET=ARMV8"
+openblas_install_path: "/opt/openblas"
 release_version: "v0.3.30"
 environment_variables:
   OMP_NUM_THREADS: "1"
