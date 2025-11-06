@@ -1,7 +1,7 @@
 ---
-- name: Ensure required packages are installed
-  apt:
-    name:
+- name: Install prerequisites 
+  ansible.builtin.package:
+    name: 
       - ninja-build
       - gettext
       - cmake
@@ -9,9 +9,21 @@
       - curl
       - git
       - make
+    state: present
+
+- name: Install Debian specific prerequisites 
+  ansible.builtin.package:
+    name: 
       - build-essential
     state: present
-    update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Install RedHat specific prerequisites
+  ansible.builtin.package:
+    name:
+      - gcc 
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
 
 - name: Remove existing Neovim directory, if it exists
   file:
