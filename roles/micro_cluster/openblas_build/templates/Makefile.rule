@@ -17,8 +17,7 @@ VERSION = 0.3.30
 
 # You can specify the target architecture, otherwise it's
 # automatically detected.
-TARGET = ARMV8 
-# CORTEXA53
+# TARGET = ARMV8
 
 # If you want to support multiple architecture in one binary
 # DYNAMIC_ARCH = 1
