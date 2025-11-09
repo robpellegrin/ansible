@@ -1,0 +1,31 @@
+---
+- name: Install Open MPI
+  hosts: cluster_nodes 
+  become: true 
+  tasks:
+    - name: Download Open MPI
+      get_url:
+        url: https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.8.tar.gz
+        dest: /tmp/openmpi-5.0.8.tar.gz
+
+    - name: Extract Open MPI
+      unarchive:
+        src: /tmp/openmpi-5.0.8.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Configure Open MPI
+      command:
+        cmd: ./configure --prefix=/opt/openmpi --with-slurm --with-pmix
+        chdir: /tmp/openmpi-5.0.8
+
+    - name: Build Open MPI
+      command:
+        cmd: make
+        chdir: /tmp/openmpi-5.0.8
+
+    - name: Install Open MPI
+      command:
+        cmd: make install
+        chdir: /tmp/openmpi-5.0.8
+
