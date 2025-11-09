@@ -1,0 +1,63 @@
+---
+- name: Install munge
+  become: yes
+  block: 
+    - name: Install munge 
+      ansible.builtin.package:
+        name: 
+          - munge 
+          - libmunge2 
+          - libmunge-dev
+        state: present
+
+    - name: "Copy munge.key to each node."
+      ansible.builtin.template:
+        src: templates/munge.key
+        dest: "/etc/munge/munge.key"
+        owner: munge 
+        group: munge 
+        mode: '0700'
+
+    # This needs to be present but isn't created during the install.
+    - name: Make sure /var/log/munge exists 
+      ansible.builtin.file:
+        path: "/var/log/munge" 
+        owner: munge
+        group: munge
+        mode: '0700'
+        state: directory 
+
+    - name: Start and enable munge 
+      ansible.builtin.systemd:
+        name: "munge.service" 
+        enabled: true
+        state: started
+
+    - name: Install SLURM
+      ansible.builtin.package:
+        name:
+          - slurm-wlm
+
+    - name: "Copy slurm config"
+      ansible.builtin.template:
+        src: templates/slurm.conf
+        dest: "/etc/slurm/slurm.conf"
+        owner: root 
+        group: root 
+        mode: '0444'
+
+    - name: "Create /var/spool/slurmctld and set permissions"
+      ansible.builtin.file:
+        dest: "/var/spool/slurmctld"
+        owner: slurm 
+        group: slurm 
+        mode: '0700'
+        state: directory
+
+    - name: Start and enable munge 
+      ansible.builtin.systemd:
+        name: "slurmctld.service" 
+        enabled: true
+        state: started 
+
+...
