@@ -1,5 +1,5 @@
 ---
-- name: Install munge
+- name: Install and configure SLURM
   become: yes
   block: 
     - name: Install munge 
@@ -54,7 +54,7 @@
         mode: '0700'
         state: directory
 
-    - name: Start and enable munge 
+    - name: Start and enable SLURM
       ansible.builtin.systemd:
         name: "slurmctld.service" 
         enabled: true
